@@ -30,7 +30,8 @@ public class PlayerController {
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<PlayerResponse>>> getAllPlayer() {
@@ -43,7 +44,8 @@ public class PlayerController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<PlayerResponse>> getPlayerById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
@@ -56,7 +58,8 @@ public class PlayerController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<PlayerResponse>>> getPlayerByPlayerType(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
@@ -68,7 +71,8 @@ public class PlayerController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<PlayerResponse>>> getPlayerByTeam(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
@@ -80,7 +84,8 @@ public class PlayerController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
 //    @RequestBody(required = true) @Valid Player player
@@ -100,7 +105,8 @@ public class PlayerController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Player>> updatePlayer(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestBody(required = true) @Valid Player player) throws Exception {
@@ -112,7 +118,8 @@ public class PlayerController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<String>> updatePlayerType(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id, @PathVariable @Valid @Pattern(regexp = "[0-9]*") int typeId) throws Exception {
@@ -124,7 +131,8 @@ public class PlayerController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Player>> deletePlayerById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {

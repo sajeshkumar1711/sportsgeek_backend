@@ -31,7 +31,8 @@ public class MatchesController {
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<MatchesWithVenue>>> getAllMatches() {
@@ -43,7 +44,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<MatchesWithVenue>> getMatchesById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
@@ -55,7 +57,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<MatchesWithVenue>>> getMatchesByTournament(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
@@ -67,7 +70,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<MatchesWithVenue>>> getMatchesByVenue(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
@@ -79,7 +83,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<MatchesWithVenue>>> getMatchesByMinBet(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int minBet) throws Exception {
@@ -91,7 +96,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<MatchesWithVenue>>> getMatchesByTeam(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
@@ -102,7 +108,8 @@ public class MatchesController {
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<MatchesWithVenue>>> findAllMatchesByPreviousDateAndResultStatus() {
@@ -114,7 +121,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Matches>> updateMatchResult(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int matchId,@PathVariable @Valid @Pattern(regexp = "[0-9]*") int resultStatus, @PathVariable @Valid @Pattern(regexp = "[0-9]*") int winnerTeamId) throws Exception {
@@ -126,7 +134,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Matches>> updateMatch(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id, @RequestBody(required = true) @Valid Matches matches) throws Exception {
@@ -138,7 +147,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<String>> updateMatchVenue(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@PathVariable @Valid @Pattern(regexp = "[0-9]*") int venueId ) throws Exception {
@@ -150,7 +160,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<String>> updateMatchResultStatus(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@PathVariable @Valid @Pattern(regexp = "[0-9]*") boolean status ) throws Exception {
@@ -162,7 +173,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<String>> updateMatchStartDateTime(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id, @PathVariable @Valid Timestamp date) throws Exception {
@@ -174,7 +186,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<String>> updateMinimumBet(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int matchId, @PathVariable @Valid @Pattern(regexp = "[0-9]*") int minBet) throws  Exception {
@@ -186,7 +199,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Matches>> addMatches(@RequestBody(required = true) @Valid Matches matches) throws  Exception {
@@ -198,7 +212,8 @@ public class MatchesController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Matches>> deleteMatchById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {

@@ -30,7 +30,8 @@ public class StatisticsController {
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<Statistics>>> getAllStatistics() {
@@ -41,7 +42,8 @@ public class StatisticsController {
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<BetOnTeam>>> getAllFutureBets() {
