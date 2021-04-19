@@ -17,7 +17,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/venue",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/venues",produces = MediaType.APPLICATION_JSON_VALUE)
 public class VenueController {
     @Autowired
     VenueService venueService;

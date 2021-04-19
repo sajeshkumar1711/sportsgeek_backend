@@ -17,7 +17,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/betOnPlayer",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/bet-on-players",produces = MediaType.APPLICATION_JSON_VALUE)
 public class BetOnPlayerController {
 
     @Autowired
@@ -46,7 +46,7 @@ public class BetOnPlayerController {
         Result<BetOnPlayerResponse> playerList = betOnPlayerService.findBetPlayerByBetPlayerId(id);
         return new ResponseEntity<>(playerList, HttpStatus.valueOf(playerList.getCode()));
     }
-    @GetMapping(value = "userId/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = BetOnPlayer.class),
@@ -58,7 +58,7 @@ public class BetOnPlayerController {
         Result<BetOnPlayerResponse> playerList = betOnPlayerService.findBetPlayerByUserId(id);
         return new ResponseEntity<>(playerList, HttpStatus.valueOf(playerList.getCode()));
     }
-    @GetMapping(value = "matchId/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/matches/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = BetOnPlayer.class),
@@ -94,7 +94,7 @@ public class BetOnPlayerController {
         Result<BetOnPlayer> playerResult = betOnPlayerService.updateBetPlayer(id, player);
         return new ResponseEntity(playerResult,HttpStatus.valueOf(playerResult.getCode()));
     }
-    @PutMapping(value = "gamePoints/{id}/{gamePoints}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/game-point/{gamePoints}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),

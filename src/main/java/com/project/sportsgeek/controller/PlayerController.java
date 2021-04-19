@@ -20,7 +20,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/player",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/players",produces = MediaType.APPLICATION_JSON_VALUE)
 public class PlayerController {
 
     @Autowired
@@ -51,7 +51,7 @@ public class PlayerController {
         return new ResponseEntity<>(playerResult, HttpStatus.valueOf(playerResult.getCode()));
     }
 
-    @GetMapping(value = "/playerType/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/player-type/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
@@ -107,7 +107,7 @@ public class PlayerController {
         Result<Player> playerResult = playerService.updatePlayer(id, player);
         return new ResponseEntity(playerResult,HttpStatus.valueOf(playerResult.getCode()));
     }
-    @PutMapping(value = "/updatePlayerType/{id}/{typeId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/update-player-type/{typeId}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
