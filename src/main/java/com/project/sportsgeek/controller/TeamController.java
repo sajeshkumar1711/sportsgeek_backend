@@ -29,7 +29,8 @@ public class TeamController {
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<List<Team>>> getAllTeam() {
@@ -41,7 +42,8 @@ public class TeamController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Team>> getTeamById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
@@ -53,7 +55,8 @@ public class TeamController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
 //    @RequestBody(required = true) @Valid Team team
@@ -71,7 +74,8 @@ public class TeamController {
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
                     @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Team>> updateTeam(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestBody(required = true) @Valid Team team) throws Exception {
@@ -83,7 +87,8 @@ public class TeamController {
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
                     @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class)
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     public ResponseEntity<Result<Team>> deleteTeamById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
