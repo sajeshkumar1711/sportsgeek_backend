@@ -18,7 +18,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/tournament",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/tournaments",produces = MediaType.APPLICATION_JSON_VALUE)
 public class TournamentController {
 
     @Autowired
@@ -71,7 +71,7 @@ public class TournamentController {
         Result<Tournament> tournamentResult = tournamentService.updateTournament(id,Tournament);
         return new ResponseEntity(tournamentResult,HttpStatus.valueOf(tournamentResult.getCode()));
     }
-    @PutMapping(value = "/activateTournament/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/activate-tournament/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),

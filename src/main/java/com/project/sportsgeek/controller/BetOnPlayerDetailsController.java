@@ -17,7 +17,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/betOnPlayerDetails",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/bet-on-player-details",produces = MediaType.APPLICATION_JSON_VALUE)
 public class BetOnPlayerDetailsController {
 
     @Autowired
@@ -46,7 +46,7 @@ public class BetOnPlayerDetailsController {
         Result<BetPlayerDetailsResponse> playerList = betOnPlayerDetailsService.findBetPlayerDetailsByBetPlayerId(id);
         return new ResponseEntity<>(playerList, HttpStatus.valueOf(playerList.getCode()));
     }
-    @GetMapping(value = "userId/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = BetOnPlayer.class),
@@ -70,7 +70,7 @@ public class BetOnPlayerDetailsController {
         Result<BetOnPlayerDetails> playerResult = betOnPlayerDetailsService.addBetOnPlayerDetails(betOnPlayerDetails);
         return new ResponseEntity(playerResult,HttpStatus.valueOf(playerResult.getCode()));
     }
-    @PutMapping(value = "/{id}/{playerNo}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/player-no/{playerNo}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
@@ -82,7 +82,7 @@ public class BetOnPlayerDetailsController {
         Result<BetOnPlayerDetails> playerResult = betOnPlayerDetailsService.updateBetPlayerDetails(id,playerNo, player);
         return new ResponseEntity(playerResult,HttpStatus.valueOf(playerResult.getCode()));
     }
-    @PutMapping(value = "/playerPoints/{id}/{playerNo}/{playerPoints}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/player-no/{playerNo}/player-point/{playerPoints}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),

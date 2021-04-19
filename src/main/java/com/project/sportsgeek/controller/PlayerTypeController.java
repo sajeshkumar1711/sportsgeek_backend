@@ -18,7 +18,7 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/playerType",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/player-types",produces = MediaType.APPLICATION_JSON_VALUE)
 public class PlayerTypeController {
 
     @Autowired

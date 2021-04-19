@@ -21,13 +21,13 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Controller
-@RequestMapping(path = "/myMatches",produces = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/myMatches",produces = MediaType.APPLICATION_JSON_VALUE)
 public class MyMatchesController {
 
     @Autowired
     MyMatchesService myMatchesService;
 
-    @GetMapping(value = "/upcoming/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{id}/upcoming",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
@@ -39,7 +39,7 @@ public class MyMatchesController {
         Result<List<MyMatches>> matchesList = myMatchesService.findUpcomingMatchesByUserId(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
     }
-    @GetMapping(value = "/live/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{id}/live",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
@@ -51,7 +51,7 @@ public class MyMatchesController {
         Result<List<MyMatches>> matchesList = myMatchesService.findLiveMatchesByUserId(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
     }
-    @GetMapping(value = "/result/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "users/{id}/result",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),

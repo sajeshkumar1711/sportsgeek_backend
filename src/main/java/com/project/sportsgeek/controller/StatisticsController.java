@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/statistics",produces = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/statistics",produces = MediaType.APPLICATION_JSON_VALUE)
 public class StatisticsController {
 
     @Autowired
     StatisticsService statisticsService;
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/statistics",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
@@ -37,7 +37,7 @@ public class StatisticsController {
         Result<List<Statistics>> statList = statisticsService.findAllStatistics();
         return new ResponseEntity<>(statList, HttpStatus.valueOf(statList.getCode()));
     }
-    @GetMapping(value = "/futureBets",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/future-bet",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),

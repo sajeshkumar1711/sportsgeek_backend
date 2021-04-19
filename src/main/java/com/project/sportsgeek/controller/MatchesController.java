@@ -74,7 +74,7 @@ public class MatchesController {
         Result<List<MatchesWithVenue>> matchesList = matchesService.findMatchesByVenue(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
     }
-    @GetMapping(value = "/minimumBet/{minBet}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/minimum-bet/{minBet}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
@@ -98,7 +98,7 @@ public class MatchesController {
         Result<List<MatchesWithVenue>> matchesList = matchesService.findMatchesByTeam(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
     }
-    @GetMapping(value = "/oldMatches",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/old-match",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Venue.class),
@@ -109,7 +109,7 @@ public class MatchesController {
         Result<List<MatchesWithVenue>> matchesList = matchesService.findAllMatchesByPreviousDateAndResultStatus();
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
     }
-    @PutMapping(value = "/updateMatch/{matchId}/{resultStatus}/{winnerTeamId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/update-match/{matchId}/{resultStatus}/{winnerTeamId}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
@@ -121,7 +121,7 @@ public class MatchesController {
         Result<String> updateResult = matchesService.updateMatchWinningTeam(matchId,resultStatus,winnerTeamId);
         return new ResponseEntity(updateResult,HttpStatus.valueOf(updateResult.getCode()));
     }
-    @PutMapping(value = "/updateMatchDetail/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/update-match-detail",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
@@ -133,7 +133,7 @@ public class MatchesController {
         Result<Matches> matchResult = matchesService.updateMatch(id, matches);
         return new ResponseEntity(matchResult,HttpStatus.valueOf(matchResult.getCode()));
     }
-    @PutMapping(value = "/updateMatchVenue/{id}/{venueId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/update-match-venue/{venueId}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
@@ -145,7 +145,7 @@ public class MatchesController {
         Result<String> matchResult = matchesService.updateMatchVenue(id, venueId);
         return new ResponseEntity(matchResult,HttpStatus.valueOf(matchResult.getCode()));
     }
-    @PutMapping(value = "/updateMatchResultStatus/{id}/{status}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/update-match-result-status/{status}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
@@ -157,7 +157,7 @@ public class MatchesController {
         Result<String> matchResult = matchesService.updateMatchResultStatus(id, status);
         return new ResponseEntity(matchResult,HttpStatus.valueOf(matchResult.getCode()));
     }
-    @PutMapping(value = "/updateMatchStartDate/{id}/{date}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}/update-match-start-date/{date}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
@@ -169,7 +169,7 @@ public class MatchesController {
         Result<String> matchResult = matchesService.updateMatchStartDateTime(id, date);
         return new ResponseEntity(matchResult,HttpStatus.valueOf(matchResult.getCode()));
     }
-    @PutMapping(value = "/updateMinBet/{matchId}/{minBet}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{matchId}/update-min-bet/{minBet}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Venue.class),
