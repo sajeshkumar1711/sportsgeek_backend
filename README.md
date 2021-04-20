@@ -1,1 +1,1 @@
-# sportsgeek_backend
+# sportsgeek Project Backend developed in Spring Boot.
