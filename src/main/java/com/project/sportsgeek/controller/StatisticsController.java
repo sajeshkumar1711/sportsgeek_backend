@@ -53,4 +53,5 @@ public class StatisticsController {
         Result<List<BetOnTeam>> betList = statisticsService.findFutureBets();
         return new ResponseEntity<>(betList, HttpStatus.valueOf(betList.getCode()));
     }
+
 }

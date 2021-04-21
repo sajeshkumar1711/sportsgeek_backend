@@ -102,6 +102,7 @@ public class BetOnPlayerDetailsController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<BetOnPlayerDetails>> updatePlayerPoints(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id, @PathVariable @Valid @Pattern(regexp = "[0-9]*") int playerNo, @PathVariable @Valid @Pattern(regexp = "[0-9]*") int playerPoints) throws Exception {
         Result<BetOnPlayerDetails> playerResult = betOnPlayerDetailsService.updatePlayerPoints(id, playerNo, playerPoints);

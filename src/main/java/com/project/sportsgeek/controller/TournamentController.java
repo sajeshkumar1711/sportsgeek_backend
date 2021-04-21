@@ -94,6 +94,7 @@ public class TournamentController {
         Result<String> tournamentResult = tournamentService.updateActiveTournament(id);
         return new ResponseEntity(tournamentResult,HttpStatus.valueOf(tournamentResult.getCode()));
     }
+
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {

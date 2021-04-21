@@ -46,6 +46,7 @@ public class BetOnPlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<BetOnPlayerResponse>> getBetPlayerByBetPlayerId(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<BetOnPlayerResponse> playerList = betOnPlayerService.findBetPlayerByBetPlayerId(id);
