@@ -21,7 +21,7 @@ import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.GenderService;
 
 @RestController
-@RequestMapping(path = "/genders",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/gender",produces = MediaType.APPLICATION_JSON_VALUE)
 public class GenderController {
 
 	@Autowired
