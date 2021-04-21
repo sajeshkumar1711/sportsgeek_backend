@@ -58,49 +58,50 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<User>> getUserById(@PathVariable int id) throws Exception {
         Result<User> userResult = userService.findUserByUserId(id);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @GetMapping("/username/{username}")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWithPassword>> getUserByUserName(@PathVariable String username) throws Exception {
         Result<UserWithPassword> userResult = userService.findUserByUserName(username);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @PostMapping("/forgetPassword")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<User>> getUserByEmailId(@RequestBody(required = true) User user) throws Exception {
         Result<User> userResult = userService.findUserByEmailId(user);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @GetMapping("/LoosingPoints/{userId}")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWinningAndLossingPoints>> getUserLoosingPoints(@PathVariable int userId) throws Exception {
         Result<UserWinningAndLossingPoints> userResult = userService.findUserLoosingPoints(userId);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @GetMapping("/WinningPoints/{userId}")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWinningAndLossingPoints>> getUserWinningPoints(@PathVariable int userId) throws Exception {
         Result<UserWinningAndLossingPoints> userResult = userService.findUserWinningPoints(userId);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @GetMapping("/userWithStatus/{status}")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<User>>> getUsersByStatus(@PathVariable boolean status) throws Exception {
         Result<List<User>> userResult = userService.findUsersByStatus(status);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @PostMapping("/authenticateStatus")
-    @PreAuthorize("hasRole('Admin')")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserForLoginState>> authenticateStatus(@RequestBody(required = true) UserAtLogin userAtLogin) throws  Exception {
         Result<UserForLoginState> userResult = userService.authenticateStatus(userAtLogin);
         System.out.println("UserResult "+userResult);
         return new ResponseEntity(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @PostMapping("/addUser")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<User>> addUsers(@RequestBody(required = true) UserWithPassword userWithPassword) throws  Exception {
        userWithPassword.setPassword(bCryptPasswordEncoder.encode(userWithPassword.getPassword()));
        Result<User> userResult = userService.addUser(userWithPassword);
@@ -108,6 +109,7 @@ public class UserController {
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @PostMapping("/authenticate")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<Token>> authenticate(@RequestBody(required = true) UserAtLogin userAtLogin) throws  Exception {
         System.out.println(" Rest Authenticate");
         authenticate(userAtLogin.getUsername(), userAtLogin.getPassword());
@@ -118,6 +120,7 @@ public class UserController {
         return new ResponseEntity("{\"token\":\"" + token + "\"}",HttpStatus.valueOf(200));
     }
     @PutMapping("/updatePassword")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWithNewPassword>> updatePassword(@RequestBody(required = true) UserWithNewPassword userWithNewPassword) throws  Exception {
         System.out.println("Try-1:" + bCryptPasswordEncoder.encode("Rushabh@452"));
         System.out.println("Try-2:" + bCryptPasswordEncoder.encode("Rushabh@452"));
@@ -125,6 +128,7 @@ public class UserController {
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @PutMapping("/forgetPassword")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<String>> forgetPassword(@RequestBody(required = true) UserWithOtp userWithOtp) throws  Exception {
         Result<String> userResult = userService.updateForgetPassword(userWithOtp);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
@@ -148,6 +152,7 @@ public class UserController {
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @PutMapping("/{userId}")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<User>> updateUser(@PathVariable int userId, @RequestBody(required = true) User user) throws  Exception {
         Result<User> userResult = userService.updateUser(userId,user);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));

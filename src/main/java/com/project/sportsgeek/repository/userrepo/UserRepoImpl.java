@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowCountCallbackHandler;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -34,10 +32,7 @@ public class UserRepoImpl implements UserRepository{
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	private QueryGenerator<UserWithPassword> queryGenerator = new QueryGenerator<UserWithPassword>();
 	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-	
-	@Autowired
-	private JavaMailSender javaMailSender;
-	
+		
 	@Override
 	public List<User> findAllUsers() {
 		String sql = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber " +
@@ -143,26 +138,7 @@ public class UserRepoImpl implements UserRepository{
 
 	@Override
 	public boolean updateStatus(int id, boolean status) throws Exception {
-		String fetch_user = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber " +
-                "FROM User inner join EmailContact on User.UserId=EmailContact.UserId inner join MobileContact on User.UserId=MobileContact.UserId WHERE User.UserId="+id;
-        List<User> userList =  jdbcTemplate.query(fetch_user,new UserRowMapper());
-        if (userList.size() > 0 ) {
-            User user = userList.get(0);
-            SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setTo(user.getEmail());
-            msg.setSubject("Account Approved!!");
-            msg.setText("Congratulations "+user.getFirstName()+" "+user.getLastName()+",\n\n" +
-                    "Your account is approved by the Admin. \n" +
-                    "Your username is \"" + user.getUsername() + "\".\n" +
-                    "Now, You can login to the app and enjoy SportsGeek.\n" +
-                    "\n" +
-                    "Thanking you\n" +
-                    "SportsGeek Team");
-            javaMailSender.send(msg);
-        }
-        String sql = "UPDATE `" + "User" + "` set "
-                + "`Status` = "+status+" where `UserId`="+id;
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(id)) > 0;
+		return true;
 	}
 
 	@Override

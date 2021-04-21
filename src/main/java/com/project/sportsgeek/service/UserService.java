@@ -34,8 +34,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    private JavaMailSender javaMailSender;
     private int otp;
     private int sendOtp;
 
@@ -57,21 +55,7 @@ public class UserService implements UserDetailsService {
         }
     }
     public Result<User> findUserByEmailId(User user) throws Exception {
-        List<User> userList = userRepository.findUserByEmailId(user);
-        if (userList.size() > 0) {
-            sendOtp = generateOTP();
-            SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setTo(userList.get(0).getEmail());
-            msg.setSubject("Forgot Password OTP Verification!!");
-            msg.setText("Hello "+userList.get(0).getFirstName()+" "+userList.get(0).getLastName()+"\n Your OTP For Password Change.\n" +
-                    "OTP:"+ sendOtp +"");
-            javaMailSender.send(msg);
-            return new Result<>(200, userList.get(0));
-        }
-        else {
-            return new Result<>(404, "Email Id And Mobile Number Not Found");
-
-        }
+        return addUser(null);
     }
     public int generateOTP(){
 
@@ -116,31 +100,7 @@ public class UserService implements UserDetailsService {
     public Result<User> addUser(UserWithPassword userWithPassword) throws Exception {
         int id = userRepository.addUser(userWithPassword);
         userWithPassword.setUserId(id);
-        if (id > 0) {
-            SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setTo(userWithPassword.getEmail());
-            msg.setSubject("New User Registration!!");
-            msg.setText("Hello "+userWithPassword.getFirstName()+" "+userWithPassword.getLastName()+"\n Welcome to SportsGeek.\n" +
-                    "Your account is pending for approval by Admin. Wait For the Response of the approval of account.");
-            javaMailSender.send(msg);
-            SimpleMailMessage adminmsg = new SimpleMailMessage();
-            adminmsg.setTo("admn.sportsgeek@gmail.com");
-            adminmsg.setSubject("New User Registration Approval!!");
-            adminmsg.setText("Hello Admin \n New user With Name:"+userWithPassword.getFirstName()+" "+userWithPassword.getLastName()+" and username: "+userWithPassword.getUsername()+" " +
-                    " has Registered for SportsGeek, Please Approve if he/she is a valid user.\n" +
-                    "Thanking you\n" +
-                    "SportsGeek Team");
-            javaMailSender.send(adminmsg);
-            return new Result<>(201, new User(userWithPassword));
-        }
-        else if (id == -1)
-        {
-            return new Result<>(400, "Email Already Exists");
-        }
-        else {
-            return new Result<>(404, "UserName Already Exists");
-        }
-
+        return addUser(userWithPassword);
     }
 
     public Result<User> updateUser(int id, User user) throws Exception {
