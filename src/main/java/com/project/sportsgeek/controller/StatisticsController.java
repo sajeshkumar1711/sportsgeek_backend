@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,7 @@ public class StatisticsController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<Statistics>>> getAllStatistics() {
         Result<List<Statistics>> statList = statisticsService.findAllStatistics();
         return new ResponseEntity<>(statList, HttpStatus.valueOf(statList.getCode()));
@@ -46,6 +48,7 @@ public class StatisticsController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<BetOnTeam>>> getAllFutureBets() {
         Result<List<BetOnTeam>> betList = statisticsService.findFutureBets();
         return new ResponseEntity<>(betList, HttpStatus.valueOf(betList.getCode()));

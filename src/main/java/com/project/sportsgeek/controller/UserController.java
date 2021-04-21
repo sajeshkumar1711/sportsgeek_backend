@@ -104,7 +104,6 @@ public class UserController {
     public ResponseEntity<Result<User>> addUsers(@RequestBody(required = true) UserWithPassword userWithPassword) throws  Exception {
        userWithPassword.setPassword(bCryptPasswordEncoder.encode(userWithPassword.getPassword()));
        Result<User> userResult = userService.addUser(userWithPassword);
-        System.out.println(userWithPassword);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @PostMapping("/authenticate")

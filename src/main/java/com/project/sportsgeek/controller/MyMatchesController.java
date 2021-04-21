@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class MyMatchesController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<MyMatches>>> getUpcomingContestByUserId(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<List<MyMatches>> matchesList = myMatchesService.findUpcomingMatchesByUserId(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
@@ -49,6 +51,7 @@ public class MyMatchesController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<MyMatches>>> getLiveContestByUserId(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<List<MyMatches>> matchesList = myMatchesService.findLiveMatchesByUserId(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
@@ -62,6 +65,7 @@ public class MyMatchesController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<MyMatches>>> getResultContestByUserId(@PathVariable @Valid @Pattern(regexp = "[0-9]*")  int id) throws Exception {
         Result<List<MyMatches>> matchesList = myMatchesService.findResultMatchesByUserId(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));

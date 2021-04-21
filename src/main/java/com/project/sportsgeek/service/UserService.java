@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import com.project.sportsgeek.model.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -34,10 +35,11 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    private JavaMailSender javaMailSender;
     private int otp;
     private int sendOtp;
+
+    @Autowired
+    EmailService emailService;
 
 
     public Result<List<User>> findAllUsers() {
@@ -60,12 +62,14 @@ public class UserService implements UserDetailsService {
         List<User> userList = userRepository.findUserByEmailId(user);
         if (userList.size() > 0) {
             sendOtp = generateOTP();
-            SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setTo(userList.get(0).getEmail());
-            msg.setSubject("Forgot Password OTP Verification!!");
-            msg.setText("Hello "+userList.get(0).getFirstName()+" "+userList.get(0).getLastName()+"\n Your OTP For Password Change.\n" +
-                    "OTP:"+ sendOtp +"");
-            javaMailSender.send(msg);
+            String subject = "Forgot Password OTP Verification!!";
+            String msg = "Hello "+userList.get(0).getFirstName()+" "+userList.get(0).getLastName()+"\n Your OTP For Password Change.\n" +
+                    "OTP:"+ sendOtp +"";
+            Email email = Email.builder()
+                    .setSubject(subject)
+                    .setTo(userList.get(0).getEmail())
+                    .message(msg).build();
+            emailService.sendEmail(email);
             return new Result<>(200, userList.get(0));
         }
         else {
@@ -117,20 +121,26 @@ public class UserService implements UserDetailsService {
         int id = userRepository.addUser(userWithPassword);
         userWithPassword.setUserId(id);
         if (id > 0) {
-            SimpleMailMessage msg = new SimpleMailMessage();
-            msg.setTo(userWithPassword.getEmail());
-            msg.setSubject("New User Registration!!");
-            msg.setText("Hello "+userWithPassword.getFirstName()+" "+userWithPassword.getLastName()+"\n Welcome to SportsGeek.\n" +
-                    "Your account is pending for approval by Admin. Wait For the Response of the approval of account.");
-            javaMailSender.send(msg);
-            SimpleMailMessage adminmsg = new SimpleMailMessage();
-            adminmsg.setTo("admn.sportsgeek@gmail.com");
-            adminmsg.setSubject("New User Registration Approval!!");
-            adminmsg.setText("Hello Admin \n New user With Name:"+userWithPassword.getFirstName()+" "+userWithPassword.getLastName()+" and username: "+userWithPassword.getUsername()+" " +
-                    " has Registered for SportsGeek, Please Approve if he/she is a valid user.\n" +
-                    "Thanking you\n" +
-                    "SportsGeek Team");
-            javaMailSender.send(adminmsg);
+            String Subject = "New User Registration";
+            String Msg = "Hello "+ userWithPassword.getFirstName()+ " "+userWithPassword.getLastName()+"\n Welcome to SportsGeek.\n" +
+                    "Your account is pending for approval by Admin. Wait For the Response of the approval of account.";
+            Email email = Email.builder()
+                    .setSubject(Subject)
+                    .setTo(userWithPassword.getEmail())
+                    .message(Msg).build();
+            emailService.sendEmail(email);
+            //Send Email to Admin
+            String adminEMail = "admn.sportsgeek@gmail.com";
+            String adminSubject = "New User Registration Approval!!";
+            String adminMessage = "Hello Admin \n New user With Name:"+userWithPassword.getFirstName() +" " + userWithPassword.getLastName()+" and username:"+userWithPassword.getUsername()+"\n" +
+                    " has Registered for SportsGeek, Please Approve if he/she is a valid user.\\n\" +\n" +
+                    "Thanking you \n" +
+                    "SportsGeek Team";
+            Email adminEmail = Email.builder()
+                    .setSubject(adminSubject)
+                    .setTo(adminEMail)
+                    .message(adminMessage).build();
+            emailService.sendEmail(adminEmail);
             return new Result<>(201, new User(userWithPassword));
         }
         else if (id == -1)
@@ -190,8 +200,8 @@ public class UserService implements UserDetailsService {
     }
 
     public Result<String> updateForgetPassword(UserWithOtp userWithOtp) throws Exception {
-        System.out.println("Send OTP in Update Password Service:"+sendOtp);
-        System.out.println("Otp Received by service"+userWithOtp.getOtp());
+//        System.out.println("Send OTP in Update Password Service:"+sendOtp);
+//        System.out.println("Otp Received by service"+userWithOtp.getOtp());
         if (userWithOtp.getOtp() == sendOtp) {
             int result = userRepository.updateForgetPassword(userWithOtp);
             if (result > 0) {

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,6 +33,7 @@ public class TournamentController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<List<Tournament>>> getAllTournament() {
         Result<List<Tournament>> tournamentList = tournamentService.findAllTournament();
         return new ResponseEntity<>(tournamentList, HttpStatus.valueOf(tournamentList.getCode()));
@@ -45,6 +47,7 @@ public class TournamentController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Tournament>> getTournamentById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception{
         Result<Tournament> tournamentList = tournamentService.findTournamentById(id);
         return new ResponseEntity<>(tournamentList, HttpStatus.valueOf(tournamentList.getCode()));
@@ -58,6 +61,7 @@ public class TournamentController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Tournament>> addTournament(@RequestBody(required = true) @Valid Tournament Tournament) throws  Exception {
         Result<Tournament> tournamentResult = tournamentService.addTournament(Tournament);
         return new ResponseEntity(tournamentResult,HttpStatus.CREATED);
@@ -71,6 +75,7 @@ public class TournamentController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Tournament>> updateTournament(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestBody(required = true) @Valid Tournament Tournament) throws Exception {
         Result<Tournament> tournamentResult = tournamentService.updateTournament(id,Tournament);
         return new ResponseEntity(tournamentResult,HttpStatus.valueOf(tournamentResult.getCode()));
@@ -84,6 +89,7 @@ public class TournamentController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<String>> updateActivateTournament(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<String> tournamentResult = tournamentService.updateActiveTournament(id);
         return new ResponseEntity(tournamentResult,HttpStatus.valueOf(tournamentResult.getCode()));
@@ -97,6 +103,7 @@ public class TournamentController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Tournament>> deleteTournamentById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception{
         Result<Integer> tournamentResult = tournamentService.deleteTournament(id);
         return new ResponseEntity(tournamentResult,HttpStatus.valueOf(tournamentResult.getCode()));
