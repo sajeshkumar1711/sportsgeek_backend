@@ -35,7 +35,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
-
     private int otp;
     private int sendOtp;
 

@@ -15,7 +15,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -42,7 +41,6 @@ public class MyMatchesController {
         Result<List<MyMatches>> matchesList = myMatchesService.findUpcomingMatchesByUserId(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
     }
-
     @GetMapping(value = "/users/{id}/live",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {

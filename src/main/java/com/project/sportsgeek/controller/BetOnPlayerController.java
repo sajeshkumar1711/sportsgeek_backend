@@ -1,7 +1,9 @@
 package com.project.sportsgeek.controller;
 
 import com.project.sportsgeek.exception.ResultException;
-import com.project.sportsgeek.model.*;
+import com.project.sportsgeek.model.BetOnPlayer;
+import com.project.sportsgeek.model.BetOnPlayerResponse;
+import com.project.sportsgeek.model.Venue;
 import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.BetOnPlayerService;
 import io.swagger.annotations.ApiResponse;
@@ -46,7 +48,6 @@ public class BetOnPlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
-    
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<BetOnPlayerResponse>> getBetPlayerByBetPlayerId(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<BetOnPlayerResponse> playerList = betOnPlayerService.findBetPlayerByBetPlayerId(id);

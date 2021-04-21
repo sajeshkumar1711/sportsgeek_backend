@@ -87,7 +87,6 @@ public class TeamController {
         Result<Team> teamResult = teamService.updateTeam(id,team);
         return new ResponseEntity(teamResult,HttpStatus.valueOf(teamResult.getCode()));
     }
-
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
