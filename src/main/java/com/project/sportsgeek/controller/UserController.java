@@ -36,7 +36,7 @@ import com.project.sportsgeek.service.UserService;
 import ch.qos.logback.core.subst.Token;
 
 @RestController
-@RequestMapping(value = "/user",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/users",produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
 
@@ -69,38 +69,38 @@ public class UserController {
         Result<UserWithPassword> userResult = userService.findUserByUserName(username);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @PostMapping("/forgetPassword")
+    @PostMapping("/forget-password")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<User>> getUserByEmailId(@RequestBody(required = true) User user) throws Exception {
         Result<User> userResult = userService.findUserByEmailId(user);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @GetMapping("/LoosingPoints/{userId}")
+    @GetMapping("/loosing-points/{userId}")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWinningAndLossingPoints>> getUserLoosingPoints(@PathVariable int userId) throws Exception {
         Result<UserWinningAndLossingPoints> userResult = userService.findUserLoosingPoints(userId);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @GetMapping("/WinningPoints/{userId}")
+    @GetMapping("/winning-points/{userId}")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWinningAndLossingPoints>> getUserWinningPoints(@PathVariable int userId) throws Exception {
         Result<UserWinningAndLossingPoints> userResult = userService.findUserWinningPoints(userId);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @GetMapping("/userWithStatus/{status}")
+    @GetMapping("/user-with-status/{status}")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<User>>> getUsersByStatus(@PathVariable boolean status) throws Exception {
         Result<List<User>> userResult = userService.findUsersByStatus(status);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @PostMapping("/authenticateStatus")
+    @PostMapping("/authenticate-status")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserForLoginState>> authenticateStatus(@RequestBody(required = true) UserAtLogin userAtLogin) throws  Exception {
         Result<UserForLoginState> userResult = userService.authenticateStatus(userAtLogin);
         System.out.println("UserResult "+userResult);
         return new ResponseEntity(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @PostMapping("/addUser")
+    @PostMapping("/add-user")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<User>> addUser(@RequestBody(required = true) UserWithPassword userWithPassword) throws  Exception {
        userWithPassword.setPassword(bCryptPasswordEncoder.encode(userWithPassword.getPassword()));
@@ -119,7 +119,7 @@ public class UserController {
         System.out.println("UserToken"+token);
         return new ResponseEntity("{\"token\":\"" + token + "\"}",HttpStatus.valueOf(200));
     }
-    @PutMapping("/updatePassword")
+    @PutMapping("/update-password")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWithNewPassword>> updatePassword(@RequestBody(required = true) UserWithNewPassword userWithNewPassword) throws  Exception {
         System.out.println("Try-1:" + bCryptPasswordEncoder.encode("Rushabh@452"));
@@ -127,25 +127,25 @@ public class UserController {
         Result<String> userResult = userService.updatePassword(userWithNewPassword);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
-    @PutMapping("/forgetPassword")
+    @PutMapping("/forget-password")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<String>> forgetPassword(@RequestBody(required = true) UserWithOtp userWithOtp) throws  Exception {
         Result<String> userResult = userService.updateForgetPassword(userWithOtp);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
-    @PutMapping("/updateUserRole/{userId}/{role}")
+    @PutMapping("/update-user-role/{userId}/{role}")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<String>> updateUserRole(@PathVariable int userId, @PathVariable int role) throws  Exception {
         Result<String> userResult = userService.updateUserRole(userId,role);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
-    @PutMapping("/updateStatus/{userId}/{status}")
+    @PutMapping("/update-status/{userId}/{status}")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<User>> updateStatus(@PathVariable int userId,@PathVariable boolean status) throws  Exception {
         Result<User> userResult = userService.updateStatus(userId,status);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
-    @DeleteMapping("/deleteUser/{userId}")
+    @DeleteMapping("/delete-user/{userId}")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<User>> deleteUser(@PathVariable int userId) throws  Exception {
         Result<User> userResult = userService.deleteUser(userId);
