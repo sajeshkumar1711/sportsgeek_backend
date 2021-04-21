@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,27 +28,32 @@ public class GenderController {
     GenderService genderService;
 
     @GetMapping
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<List<Gender>>> getAllGender() {
         Result<List<Gender>> genderList = genderService.findAllGender();
         return new ResponseEntity<>(genderList, HttpStatus.valueOf(genderList.getCode()));
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<Gender>> getGenderById(@PathVariable int id) throws Exception {
         Result<Gender> genderList = genderService.findGenderById(id);
         return new ResponseEntity<>(genderList, HttpStatus.valueOf(genderList.getCode()));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<Gender>> addGender(@RequestBody(required = true) Gender gender) throws  Exception {
         Result<Gender> genderResult = genderService.addGender(gender);
         return new ResponseEntity(genderResult,HttpStatus.valueOf(genderResult.getCode()));
     }
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<Gender>> updateGender(@PathVariable int id,@RequestBody(required = true) Gender gender) throws Exception {
        Result<Gender> genderResult = genderService.updateGender(id,gender);
         return new ResponseEntity(genderResult,HttpStatus.valueOf(genderResult.getCode()));
     }
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Gender>> deleteGenderById(@PathVariable int id) throws Exception {
        Result<Integer> integerResult =  genderService.deleteGender(id);
         return new ResponseEntity(integerResult,HttpStatus.valueOf(integerResult.getCode()));
