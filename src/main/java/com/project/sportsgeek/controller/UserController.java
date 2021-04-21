@@ -34,6 +34,8 @@ import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.UserService;
 
 import ch.qos.logback.core.subst.Token;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping(value = "/users",produces = MediaType.APPLICATION_JSON_VALUE)
@@ -52,6 +54,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('Admin')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 500, message = "Internal server error"), @ApiResponse(code = 404, message = "Bad Request")})
     public ResponseEntity<Result<List<User>>> getAllUsers() {
         Result<List<User>> userList = userService.findAllUsers();
         return new ResponseEntity<>(userList, HttpStatus.valueOf(userList.getCode()));
@@ -59,12 +62,14 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('Admin','User')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 500, message = "Internal server error"), @ApiResponse(code = 404, message = "Bad Request")})
     public ResponseEntity<Result<User>> getUserById(@PathVariable int id) throws Exception {
         Result<User> userResult = userService.findUserByUserId(id);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @GetMapping("/user-name/{username}")
     @PreAuthorize("hasAnyRole('Admin','User')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 500, message = "Internal server error"), @ApiResponse(code = 404, message = "Bad Request")})
     public ResponseEntity<Result<UserWithPassword>> getUserByUserName(@PathVariable String username) throws Exception {
         Result<UserWithPassword> userResult = userService.findUserByUserName(username);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
@@ -77,18 +82,21 @@ public class UserController {
     }
     @GetMapping("/{userId}/loosing-point")
     @PreAuthorize("hasAnyRole('Admin','User')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 500, message = "Internal server error"), @ApiResponse(code = 404, message = "Bad Request")})
     public ResponseEntity<Result<UserWinningAndLossingPoints>> getUserLoosingPoints(@PathVariable int userId) throws Exception {
         Result<UserWinningAndLossingPoints> userResult = userService.findUserLoosingPoints(userId);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @GetMapping("/{userId}/winning-point")
     @PreAuthorize("hasAnyRole('Admin','User')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 500, message = "Internal server error"), @ApiResponse(code = 404, message = "Bad Request")})
     public ResponseEntity<Result<UserWinningAndLossingPoints>> getUserWinningPoints(@PathVariable int userId) throws Exception {
         Result<UserWinningAndLossingPoints> userResult = userService.findUserWinningPoints(userId);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
     @GetMapping("/user-with-status/{status}")
     @PreAuthorize("hasAnyRole('Admin','User')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"), @ApiResponse(code = 500, message = "Internal server error"), @ApiResponse(code = 404, message = "Bad Request")})
     public ResponseEntity<Result<List<User>>> getUsersByStatus(@PathVariable boolean status) throws Exception {
         Result<List<User>> userResult = userService.findUsersByStatus(status);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
@@ -119,6 +127,7 @@ public class UserController {
     }
     @PutMapping("/update-password")
     @PreAuthorize("hasAnyRole('Admin','User')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully updated schema"), @ApiResponse(code = 404, message = "Schema not found"), @ApiResponse(code = 400, message = "Missing or invalid request body"), @ApiResponse(code = 500, message = "Internal error")})
     public ResponseEntity<Result<UserWithNewPassword>> updatePassword(@RequestBody(required = true) UserWithNewPassword userWithNewPassword) throws  Exception {
         System.out.println("Try-1:" + bCryptPasswordEncoder.encode("Rushabh@452"));
         System.out.println("Try-2:" + bCryptPasswordEncoder.encode("Rushabh@452"));
@@ -127,30 +136,35 @@ public class UserController {
     }
     @PutMapping("/forget-password")
     @PreAuthorize("hasAnyRole('Admin','User')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully updated schema"), @ApiResponse(code = 404, message = "Schema not found"), @ApiResponse(code = 400, message = "Missing or invalid request body"), @ApiResponse(code = 500, message = "Internal error")})
     public ResponseEntity<Result<String>> forgetPassword(@RequestBody(required = true) UserWithOtp userWithOtp) throws  Exception {
         Result<String> userResult = userService.updateForgetPassword(userWithOtp);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @PutMapping("/{userId}/update-user-role/{role}")
     @PreAuthorize("hasRole('Admin')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully updated schema"), @ApiResponse(code = 404, message = "Schema not found"), @ApiResponse(code = 400, message = "Missing or invalid request body"), @ApiResponse(code = 500, message = "Internal error")})
     public ResponseEntity<Result<String>> updateUserRole(@PathVariable int userId, @PathVariable int role) throws  Exception {
         Result<String> userResult = userService.updateUserRole(userId,role);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @PutMapping("/{userId}/update-status/{status}")
     @PreAuthorize("hasRole('Admin')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully updated schema"), @ApiResponse(code = 404, message = "Schema not found"), @ApiResponse(code = 400, message = "Missing or invalid request body"), @ApiResponse(code = 500, message = "Internal error")})
     public ResponseEntity<Result<User>> updateStatus(@PathVariable int userId,@PathVariable boolean status) throws  Exception {
         Result<User> userResult = userService.updateStatus(userId,status);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @DeleteMapping("/{userId}/delete-user")
     @PreAuthorize("hasRole('Admin')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully deleted schema"), @ApiResponse(code = 404, message = "Schema not found"), @ApiResponse(code = 409, message = "Schema is in use"), @ApiResponse(code = 500, message = "Error deleting schema")})
     public ResponseEntity<Result<User>> deleteUser(@PathVariable int userId) throws  Exception {
         Result<User> userResult = userService.deleteUser(userId);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @PutMapping("/{userId}")
     @PreAuthorize("hasAnyRole('Admin','User')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully updated schema"), @ApiResponse(code = 404, message = "Schema not found"), @ApiResponse(code = 400, message = "Missing or invalid request body"), @ApiResponse(code = 500, message = "Internal error")})
     public ResponseEntity<Result<User>> updateUser(@PathVariable int userId, @RequestBody(required = true) User user) throws  Exception {
         Result<User> userResult = userService.updateUser(userId,user);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
