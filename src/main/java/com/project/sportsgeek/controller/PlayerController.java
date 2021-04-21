@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +35,7 @@ public class PlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<PlayerResponse>>> getAllPlayer() {
         Result<List<PlayerResponse>> playerList = playerService.findAllPlayer();
         return new ResponseEntity<>(playerList, HttpStatus.valueOf(playerList.getCode()));
@@ -48,6 +50,7 @@ public class PlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<PlayerResponse>> getPlayerById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<PlayerResponse> playerResult = playerService.findPlayerById(id);
         return new ResponseEntity<>(playerResult, HttpStatus.valueOf(playerResult.getCode()));
@@ -62,6 +65,7 @@ public class PlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<PlayerResponse>>> getPlayerByPlayerType(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<List<PlayerResponse>> playerResult = playerService.findPlayerByPlayerType(id);
         return new ResponseEntity<>(playerResult, HttpStatus.valueOf(playerResult.getCode()));
@@ -75,6 +79,7 @@ public class PlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<List<PlayerResponse>>> getPlayerByTeam(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<List<PlayerResponse>> playerResult = playerService.findPlayerByTeamId(id);
         return new ResponseEntity<>(playerResult, HttpStatus.valueOf(playerResult.getCode()));
@@ -88,6 +93,7 @@ public class PlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
 //    @RequestBody(required = true) @Valid Player player
     public ResponseEntity<Result<Player>> addPlayer(@RequestParam("playerId") int playerId,@RequestParam("teamId") int teamId,@RequestParam("name") String name,@RequestParam("typeId") int typeId,@RequestParam("profilePicture") MultipartFile multipartFile ) throws Exception {
         String filename = multipartFile.getOriginalFilename();
@@ -109,6 +115,7 @@ public class PlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Player>> updatePlayer(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestBody(required = true) @Valid Player player) throws Exception {
         Result<Player> playerResult = playerService.updatePlayer(id, player);
         return new ResponseEntity(playerResult,HttpStatus.valueOf(playerResult.getCode()));
@@ -122,6 +129,7 @@ public class PlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<String>> updatePlayerType(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id, @PathVariable @Valid @Pattern(regexp = "[0-9]*") int typeId) throws Exception {
         Result<String> playerResult = playerService.updatePlayerType(id, typeId);
         return new ResponseEntity(playerResult,HttpStatus.valueOf(playerResult.getCode()));
@@ -135,6 +143,7 @@ public class PlayerController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Player>> deletePlayerById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<Integer> integerResult =  playerService.deletePlayer(id);
         return new ResponseEntity(integerResult,HttpStatus.valueOf(integerResult.getCode()));
