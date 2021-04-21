@@ -42,6 +42,7 @@ public class MyMatchesController {
         Result<List<MyMatches>> matchesList = myMatchesService.findUpcomingMatchesByUserId(id);
         return new ResponseEntity<>(matchesList, HttpStatus.valueOf(matchesList.getCode()));
     }
+
     @GetMapping(value = "/users/{id}/live",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {

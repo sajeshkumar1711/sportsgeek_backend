@@ -21,6 +21,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/venues",produces = MediaType.APPLICATION_JSON_VALUE)
 public class VenueController {
+
     @Autowired
     VenueService venueService;
 

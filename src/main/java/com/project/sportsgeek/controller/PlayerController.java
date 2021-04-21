@@ -148,4 +148,5 @@ public class PlayerController {
         Result<Integer> integerResult =  playerService.deletePlayer(id);
         return new ResponseEntity(integerResult,HttpStatus.valueOf(integerResult.getCode()));
     }
+
 }
