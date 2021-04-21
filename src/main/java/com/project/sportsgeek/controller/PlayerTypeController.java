@@ -97,5 +97,4 @@ public class PlayerTypeController {
         Result<Integer> integerResult =  playerTypeService.deletePlayerType(id);
         return new ResponseEntity(integerResult,HttpStatus.valueOf(integerResult.getCode()));
     }
-
 }

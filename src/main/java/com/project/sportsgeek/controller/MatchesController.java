@@ -3,7 +3,6 @@ package com.project.sportsgeek.controller;
 import com.project.sportsgeek.exception.ResultException;
 import com.project.sportsgeek.model.Matches;
 import com.project.sportsgeek.model.MatchesWithVenue;
-import com.project.sportsgeek.model.Player;
 import com.project.sportsgeek.model.Venue;
 import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.MatchesService;
@@ -217,7 +216,6 @@ public class MatchesController {
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
-
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Matches>> addMatches(@RequestBody(required = true) @Valid Matches matches) throws  Exception {
         Result<Matches> matchesResult = matchesService.addMatches(matches);

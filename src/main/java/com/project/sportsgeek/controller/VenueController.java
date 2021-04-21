@@ -4,7 +4,6 @@ import com.project.sportsgeek.exception.ResultException;
 import com.project.sportsgeek.model.Venue;
 import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.VenueService;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/venues",produces = MediaType.APPLICATION_JSON_VALUE)
 public class VenueController {
-
     @Autowired
     VenueService venueService;
 

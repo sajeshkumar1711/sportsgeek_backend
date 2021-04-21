@@ -1,34 +1,20 @@
 package com.project.sportsgeek.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
-
+import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.model.Email;
+import com.project.sportsgeek.model.profile.*;
+import com.project.sportsgeek.repository.userrepo.UserRepository;
+import com.project.sportsgeek.response.Result;
+import lombok.SneakyThrows;
 import com.project.sportsgeek.model.Email;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.project.sportsgeek.exception.ResultException;
-import com.project.sportsgeek.model.profile.User;
-import com.project.sportsgeek.model.profile.UserAtLogin;
-import com.project.sportsgeek.model.profile.UserForLoginState;
-import com.project.sportsgeek.model.profile.UserWinningAndLossingPoints;
-import com.project.sportsgeek.model.profile.UserWithNewPassword;
-import com.project.sportsgeek.model.profile.UserWithOtp;
-import com.project.sportsgeek.model.profile.UserWithPassword;
-import com.project.sportsgeek.repository.userrepo.UserRepository;
-import com.project.sportsgeek.response.Result;
-
-import lombok.SneakyThrows;
+import java.util.*;
 
 @Service
 public class UserService implements UserDetailsService {

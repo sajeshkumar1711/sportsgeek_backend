@@ -21,4 +21,5 @@ public class Email implements Serializable {
     private String setTo;
     private String setSubject;
     private String message;
+
 }
