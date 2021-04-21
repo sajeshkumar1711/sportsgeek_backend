@@ -21,7 +21,7 @@ import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.RoleService;
 
 @Controller
-@RequestMapping(path = "/role",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/roles",produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoleController {
     
     @Autowired
