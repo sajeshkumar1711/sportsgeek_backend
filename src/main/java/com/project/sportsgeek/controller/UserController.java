@@ -63,25 +63,25 @@ public class UserController {
         Result<User> userResult = userService.findUserByUserId(id);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @GetMapping("/username/{username}")
+    @GetMapping("/user-name/{username}")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWithPassword>> getUserByUserName(@PathVariable String username) throws Exception {
         Result<UserWithPassword> userResult = userService.findUserByUserName(username);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @PostMapping("/forget-password")
+    @PostMapping("/email")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<User>> getUserByEmailId(@RequestBody(required = true) User user) throws Exception {
         Result<User> userResult = userService.findUserByEmailId(user);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @GetMapping("/loosing-points/{userId}")
+    @GetMapping("/{userId}/loosing-point")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWinningAndLossingPoints>> getUserLoosingPoints(@PathVariable int userId) throws Exception {
         Result<UserWinningAndLossingPoints> userResult = userService.findUserLoosingPoints(userId);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @GetMapping("/winning-points/{userId}")
+    @GetMapping("/{userId}/winning-point")
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<UserWinningAndLossingPoints>> getUserWinningPoints(@PathVariable int userId) throws Exception {
         Result<UserWinningAndLossingPoints> userResult = userService.findUserWinningPoints(userId);
@@ -100,7 +100,7 @@ public class UserController {
         System.out.println("UserResult "+userResult);
         return new ResponseEntity(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
-    @PostMapping("/add-user")
+    @PostMapping
     public ResponseEntity<Result<User>> addUsers(@RequestBody(required = true) UserWithPassword userWithPassword) throws  Exception {
        userWithPassword.setPassword(bCryptPasswordEncoder.encode(userWithPassword.getPassword()));
        Result<User> userResult = userService.addUser(userWithPassword);
@@ -131,19 +131,19 @@ public class UserController {
         Result<String> userResult = userService.updateForgetPassword(userWithOtp);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
-    @PutMapping("/update-user-role/{userId}/{role}")
+    @PutMapping("/{userId}/update-user-role/{role}")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<String>> updateUserRole(@PathVariable int userId, @PathVariable int role) throws  Exception {
         Result<String> userResult = userService.updateUserRole(userId,role);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
-    @PutMapping("/update-status/{userId}/{status}")
+    @PutMapping("/{userId}/update-status/{status}")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<User>> updateStatus(@PathVariable int userId,@PathVariable boolean status) throws  Exception {
         Result<User> userResult = userService.updateStatus(userId,status);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
-    @DeleteMapping("/delete-user/{userId}")
+    @DeleteMapping("/{userId}/delete-user")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<User>> deleteUser(@PathVariable int userId) throws  Exception {
         Result<User> userResult = userService.deleteUser(userId);
@@ -165,6 +165,5 @@ public class UserController {
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
-        
     }
 }
