@@ -36,7 +36,7 @@ import com.project.sportsgeek.service.UserService;
 import ch.qos.logback.core.subst.Token;
 
 @RestController
-@RequestMapping(value = "/users",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/user",produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
 
@@ -166,6 +166,7 @@ public class UserController {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
+            
         }
     }
 }
