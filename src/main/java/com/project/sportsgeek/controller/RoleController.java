@@ -29,7 +29,7 @@ public class RoleController {
 
     @GetMapping
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Result<List<Role>>> getAllRole() {
+    public ResponseEntity<Result<List<Role>>> getAllRoles() {
         Result<List<Role>> roleList = roleService.findAllRole();
         return new ResponseEntity<>(roleList, HttpStatus.valueOf(roleList.getCode()));
     }

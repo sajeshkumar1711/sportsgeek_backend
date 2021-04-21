@@ -102,7 +102,7 @@ public class UserController {
     }
     @PostMapping("/addUser")
     @PreAuthorize("hasAnyRole('Admin','User')")
-    public ResponseEntity<Result<User>> addUsers(@RequestBody(required = true) UserWithPassword userWithPassword) throws  Exception {
+    public ResponseEntity<Result<User>> addUser(@RequestBody(required = true) UserWithPassword userWithPassword) throws  Exception {
        userWithPassword.setPassword(bCryptPasswordEncoder.encode(userWithPassword.getPassword()));
        Result<User> userResult = userService.addUser(userWithPassword);
         System.out.println(userWithPassword);

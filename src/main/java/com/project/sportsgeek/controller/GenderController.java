@@ -29,7 +29,7 @@ public class GenderController {
 
     @GetMapping
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Result<List<Gender>>> getAllGender() {
+    public ResponseEntity<Result<List<Gender>>> getAllGenders() {
         Result<List<Gender>> genderList = genderService.findAllGender();
         return new ResponseEntity<>(genderList, HttpStatus.valueOf(genderList.getCode()));
     }
