@@ -44,7 +44,7 @@ public class RoleController {
         Result<Role> roleList = roleService.findRoleById(id);
         return new ResponseEntity<>(roleList, HttpStatus.valueOf(roleList.getCode()));
     }
-    @PostMapping("/add-role")
+    @PostMapping
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Role>> addRole(@RequestBody(required = true) Role role) throws  Exception {
         Result<Role> roleResult = roleService.addRole(role);

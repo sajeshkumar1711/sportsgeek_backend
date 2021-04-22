@@ -45,7 +45,7 @@ public class GenderController {
         return new ResponseEntity<>(genderList, HttpStatus.valueOf(genderList.getCode()));
     }
 
-    @PostMapping("/add-gender")
+    @PostMapping
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<Gender>> addGender(@RequestBody(required = true) Gender gender) throws  Exception {
         Result<Gender> genderResult = genderService.addGender(gender);
