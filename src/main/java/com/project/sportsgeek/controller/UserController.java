@@ -116,7 +116,6 @@ public class UserController {
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
     @PostMapping("/authenticate")
-    @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<Token>> authenticate(@RequestBody(required = true) UserAtLogin userAtLogin) throws  Exception {
         System.out.println(" Rest Authenticate");
         authenticate(userAtLogin.getUsername(), userAtLogin.getPassword());
