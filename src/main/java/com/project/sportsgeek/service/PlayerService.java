@@ -34,7 +34,8 @@ public class PlayerService {
     @Autowired
     @Qualifier(value = "playerRepo")
     PlayerRepository playerRepository;
-    private static String TEMP_URL = "" ;
+   @Autowired
+   ImageUploadService imageUploadService;
     public Result<List<PlayerResponse>> findAllPlayer() {
         List<PlayerResponse> playerList = playerRepository.findAllPlayers();
         return new Result<>(200,"Venue Details Retrieved Successfully",playerList);
@@ -68,53 +69,42 @@ public class PlayerService {
         }
     }
     public Result<Player> addPlayer(Player player, MultipartFile multipartFile) throws Exception {
-        try {
-            String fileName = multipartFile.getOriginalFilename();                        // to get original file name
-            fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));  // to generated random string values for file name.
-
-            File file = this.convertToFile(multipartFile, fileName);                      // to convert multipartFile to File
-            TEMP_URL = this.uploadFile(file, fileName);                                   // to get uploaded file link
-            file.delete();
-//            System.out.println("File:"+file);// to delete the copy of uploaded file stored in the project folder// Your customized response
-            String profile = "https://firebasestorage.googleapis.com/v0/b/sportsgeek-74e1e.appspot.com/o/" +file+"?alt=media&token=e9924ea4-c2d9-4782-bc2d-0fe734431c86";
-//            System.out.println(teamlogo);
-            player.setProfilePicture(profile);
-        } catch (Exception e) {
-            e.printStackTrace();
+        File file = imageUploadService.uploadImage(multipartFile);
+        if (file.toString() != "") {
+            String playerlogo = "https://firebasestorage.googleapis.com/v0/b/sportsgeek-74e1e.appspot.com/o/" +file+"?alt=media&token=e9924ea4-c2d9-4782-bc2d-0fe734431c86";
+            player.setProfilePicture(playerlogo);
+            int id = playerRepository.addPlayer(player);
+            player.setPlayerId(id);
+            if (id > 0) {
+                return new Result<>(201,"Player Details Added Successfully",player);
+            }
+            else
+            {
+                throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
+                        .asList(new Result.SportsGeekSystemError(player.hashCode(), "unable to add the given Player")))));
+            }
         }
-        int id = playerRepository.addPlayer(player);
-        player.setPlayerId(id);
-        if (id > 0) {
-            return new Result<>(201,"Player Details Added Successfully",player);
+        else {
+            throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
+                    .asList(new Result.SportsGeekSystemError(player.hashCode(), "unable to upload the image")))));
         }
-        throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(player.hashCode(), "unable to add the given Player")))));
     }
-    private String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."));
-    }
-    private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
-        File tempFile = new File(fileName);
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            fos.write(multipartFile.getBytes());
-            fos.close();
+    public Result<Player> updatePlayer(int id, Player player, MultipartFile multipartFile) throws Exception {
+        File file = imageUploadService.uploadImage(multipartFile);
+        if (file.toString() != "") {
+            String playerlogo = "https://firebasestorage.googleapis.com/v0/b/sportsgeek-74e1e.appspot.com/o/" + file + "?alt=media&token=e9924ea4-c2d9-4782-bc2d-0fe734431c86";
+            player.setProfilePicture(playerlogo);
+            if (playerRepository.updatePlayer(id, player)) {
+                return new Result<>(201, "Player Details Updated Successfully", player);
+            } else {
+                throw new ResultException(new Result<>(400, "Unable to update the given Player details! Please try again!", new ArrayList<>(Arrays
+                        .asList(new Result.SportsGeekSystemError(player.hashCode(), "given PlayerId('" + id + "') does not exists")))));
+            }
         }
-        return tempFile;
-    }
-    private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("sportsgeek-74e1e.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("D:\\HIVE_PROJECT\\sportsgeek\\sportsgeek-74e1e-firebase-adminsdk-4s62v-7cc67b989e.json"));
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-        return String.format("https://firebasestorage.googleapis.com/v0/b/sportsgeek-74e1e.appspot.com/o/", URLEncoder.encode(fileName, String.valueOf(StandardCharsets.UTF_8)));
-    }
-    public Result<Player> updatePlayer(int id, Player player) throws Exception {
-        if (playerRepository.updatePlayer(id, player)) {
-            return new Result<>(201,"Player Details Updated Successfully",player);
+        else {
+            throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
+                    .asList(new Result.SportsGeekSystemError(player.hashCode(), "unable to upload the image")))));
         }
-        throw new ResultException(new Result<>(400, "Unable to update the given Player details! Please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(player.hashCode(), "given PlayerId('"+id+"') does not exists")))));
     }
     public Result<String> updatePlayerType(int id, int PlayerTypeId) throws Exception {
         if (playerRepository.updatePlayerType(id, PlayerTypeId)) {

@@ -1,8 +1,9 @@
 package com.project.sportsgeek.controller;
 
 import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.exception.TeamException;
 import com.project.sportsgeek.model.Team;
-import com.project.sportsgeek.model.Venue;
+import com.project.sportsgeek.model.Team;
 import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.TeamService;
 import io.swagger.annotations.ApiResponse;
@@ -29,8 +30,8 @@ public class TeamController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = Team.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = TeamException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -42,9 +43,9 @@ public class TeamController {
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = Team.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = TeamException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = TeamException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -56,9 +57,9 @@ public class TeamController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = Venue.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = Team.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = TeamException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = TeamException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -76,23 +77,29 @@ public class TeamController {
     @PutMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = Venue.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = Team.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = TeamException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = TeamException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Result<Team>> updateTeam(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestBody(required = true) @Valid Team team) throws Exception {
-        Result<Team> teamResult = teamService.updateTeam(id,team);
+//    @RequestBody(required = true) @Valid Team team
+    public ResponseEntity<Result<Team>> updateTeam(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestParam("name") String name,@RequestParam("shortName") String shortName,@RequestParam("teamLogo") MultipartFile multipartFile) throws Exception {
+        String filename = multipartFile.getOriginalFilename();
+        Team team = Team.builder()
+                .name(name)
+                .shortName(shortName)
+                .teamLogo(filename).build();
+        Result<Team> teamResult = teamService.updateTeam(id,team,multipartFile);
         return new ResponseEntity(teamResult,HttpStatus.valueOf(teamResult.getCode()));
     }
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = Team.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = TeamException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = TeamException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )

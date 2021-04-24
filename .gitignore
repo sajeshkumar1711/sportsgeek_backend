@@ -102,3 +102,6 @@ build/
 # Git
 *.orig
 
+#Firebase
+*.json
+

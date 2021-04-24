@@ -1,8 +1,8 @@
 package com.project.sportsgeek.controller;
 
-import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.exception.PlayerTypeException;
 import com.project.sportsgeek.model.PlayerType;
-import com.project.sportsgeek.model.Venue;
+import com.project.sportsgeek.model.PlayerType;
 import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.PlayerTypeService;
 import io.swagger.annotations.ApiResponse;
@@ -28,8 +28,8 @@ public class PlayerTypeController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -42,9 +42,9 @@ public class PlayerTypeController {
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = PlayerTypeException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -57,9 +57,9 @@ public class PlayerTypeController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = Venue.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = PlayerTypeException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -72,9 +72,9 @@ public class PlayerTypeController {
     @PutMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = Venue.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = PlayerTypeException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -86,9 +86,9 @@ public class PlayerTypeController {
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = PlayerTypeException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )

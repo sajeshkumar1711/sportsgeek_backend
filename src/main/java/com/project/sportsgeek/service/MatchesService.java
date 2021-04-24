@@ -5,7 +5,9 @@ import com.project.sportsgeek.exception.ResultException;
 import com.project.sportsgeek.model.Matches;
 import com.project.sportsgeek.model.MatchesWithVenue;
 import com.project.sportsgeek.model.Player;
+import com.project.sportsgeek.model.Tournament;
 import com.project.sportsgeek.repository.matchesrepo.MatchesRepository;
+import com.project.sportsgeek.repository.tournamentrepo.TournamentRepository;
 import com.project.sportsgeek.response.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -22,19 +24,40 @@ public class MatchesService {
     @Qualifier("matchesRepo")
     MatchesRepository matchesRepository;
 
-    public Result<List<MatchesWithVenue>> findAllMatches() {
-        List<MatchesWithVenue> matchesList = matchesRepository.findAllMatches();
-        return new Result<>(200,"Matches Detail Retrieved Successfully",matchesList);
+    @Autowired
+    @Qualifier("tournamentRepo")
+    TournamentRepository tournamentRepository;
+
+    public Result<List<MatchesWithVenue>> findAllMatches() throws Exception {
+        List<Tournament> tournaments = tournamentRepository.findTournamentByActive();
+        if(tournaments.size() > 0)
+        {
+            List<MatchesWithVenue> matchesList = matchesRepository.findAllMatches(tournaments.get(0).getTournamentId());
+            return new Result<>(200,"Matches Detail Retrieved Successfully",matchesList);
+        }
+        else
+        {
+            return new Result<>(404,"Unable to find the Active Tournaments");
+        }
     }
     
     public Result<MatchesWithVenue> findMatchesById(int id) throws Exception {
-        List<MatchesWithVenue> matchesList = matchesRepository.findMatchesById(id);
-        if (matchesList.size() > 0) {
-            return new Result<>(200,"Matches Detail Retrieved Successfully", matchesList.get(0));
+        List<Tournament> tournaments = tournamentRepository.findTournamentByActive();
+        if (tournaments.size() >0)
+        {
+            List<MatchesWithVenue> matchesList = matchesRepository.findMatchesById(id,tournaments.get(0).getTournamentId());
+            if (matchesList.size() > 0) {
+                return new Result<>(200,"Matches Detail Retrieved Successfully", matchesList.get(0));
+            }
+            else {
+                throw new ResultException((new Result<>(404,"No Match's found,please try again","Match with id=('"+ id +"') not found")));
+            }
         }
-        else {
-            throw new ResultException((new Result<>(404,"No Match's found,please try again","Match with id=('"+ id +"') not found")));
+        else
+        {
+            throw new ResultException((new Result<>(404,"No Active Tournaments found,please try again")));
         }
+
     }
     public Result<List<MatchesWithVenue>> findMatchesByTournament(int id) throws Exception {
         List<MatchesWithVenue> matchesList = matchesRepository.findAllMatchesByTournament(id);
@@ -87,9 +110,17 @@ public class MatchesService {
         throw new ResultException(new Result<>(400, "Unable to update the given Player details! Please try again!", new ArrayList<>(Arrays
                 .asList(new Result.SportsGeekSystemError(matches.hashCode(), "given PlayerId('"+id+"') does not exists")))));
     }
-    public Result<List<MatchesWithVenue>> findAllMatchesByPreviousDateAndResultStatus() {
-        List<MatchesWithVenue> matchesList = matchesRepository.findAllMatchesByPreviousDateAndResultStatus();
-        return new Result<>(200,matchesList);
+    public Result<List<MatchesWithVenue>> findAllMatchesByPreviousDateAndResultStatus() throws Exception {
+        List<Tournament> tournaments = tournamentRepository.findTournamentByActive();
+        if(tournaments.size() >0)
+        {
+            List<MatchesWithVenue> matchesList = matchesRepository.findAllMatchesByPreviousDateAndResultStatus(tournaments.get(0).getTournamentId());
+            return new Result<>(200,matchesList);
+        }
+        else
+        {
+            return new Result<>(404,"Unable to find the Active Tournaments");
+        }
     }
     public Result<String> updateMatchWinningTeam(int matchId, int ResultStatus, int winningTeamId) throws Exception {
             if(matchesRepository.updateMatchWinningTeam(matchId,ResultStatus,winningTeamId)== true) {
