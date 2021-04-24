@@ -1,6 +1,6 @@
 package com.project.sportsgeek.controller;
 
-import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.exception.ContestOnPlayerDetailsException;
 import com.project.sportsgeek.model.BetOnPlayer;
 import com.project.sportsgeek.model.BetOnPlayerDetails;
 import com.project.sportsgeek.model.BetPlayerDetailsResponse;
@@ -30,8 +30,8 @@ public class BetOnPlayerDetailsController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = BetOnPlayer.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = BetOnPlayerDetails.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ContestOnPlayerDetailsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -43,9 +43,9 @@ public class BetOnPlayerDetailsController {
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = BetOnPlayer.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = BetOnPlayerDetails.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = ContestOnPlayerDetailsException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ContestOnPlayerDetailsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -57,9 +57,9 @@ public class BetOnPlayerDetailsController {
     @GetMapping(value = "/users/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = BetOnPlayer.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = BetOnPlayerDetails.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = ContestOnPlayerDetailsException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ContestOnPlayerDetailsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -71,9 +71,9 @@ public class BetOnPlayerDetailsController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = BetOnPlayer.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = BetOnPlayerDetails.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = ContestOnPlayerDetailsException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ContestOnPlayerDetailsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -85,9 +85,9 @@ public class BetOnPlayerDetailsController {
     @PutMapping(value = "/{id}/player-no/{playerNo}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = Venue.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = BetOnPlayerDetails.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = ContestOnPlayerDetailsException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ContestOnPlayerDetailsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -99,9 +99,9 @@ public class BetOnPlayerDetailsController {
     @PutMapping(value = "/{id}/player-no/{playerNo}/player-point/{playerPoints}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = Venue.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = BetOnPlayerDetails.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = ContestOnPlayerDetailsException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ContestOnPlayerDetailsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -113,9 +113,9 @@ public class BetOnPlayerDetailsController {
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = BetOnPlayer.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = BetOnPlayerDetails.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = ContestOnPlayerDetailsException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ContestOnPlayerDetailsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )

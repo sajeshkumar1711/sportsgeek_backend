@@ -1,8 +1,6 @@
 package com.project.sportsgeek.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.project.sportsgeek.annotations.QueryHelperColumnName;
-import com.project.sportsgeek.annotations.QueryHelperPrimaryKey;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -21,8 +19,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MatchesWithVenue implements Serializable {
-    @QueryHelperColumnName(name = "MatchId")
-    @QueryHelperPrimaryKey
+
     private int matchId;
     @NotNull
     private int tournamentId;

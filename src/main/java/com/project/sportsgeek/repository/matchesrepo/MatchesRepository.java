@@ -12,12 +12,12 @@ import java.util.List;
 @Repository(value = "matchesRepo")
 public interface MatchesRepository {
 
-    public List<MatchesWithVenue> findAllMatches();
-    public List<MatchesWithVenue> findMatchesById(int id) throws Exception;
+    public List<MatchesWithVenue> findAllMatches(int tournamentId) throws Exception;
+    public List<MatchesWithVenue> findMatchesById(int id, int tournamentId) throws Exception;
     public List<MatchesWithVenue> findAllMatchesByTournament(int id) throws Exception;
     public List<MatchesWithVenue> findAllMatchesByVenue(int id) throws Exception;
     public List<MatchesWithVenue> findAllMatchesByTeam(int id) throws Exception;
-    public List<MatchesWithVenue> findAllMatchesByPreviousDateAndResultStatus();
+    public List<MatchesWithVenue> findAllMatchesByPreviousDateAndResultStatus(int tournamentId) throws Exception;
     public List<MatchesWithVenue> findAllMatchesByMinimumBet(int minBet) throws Exception;
     public int addMatch(Matches matches) throws Exception;
     public boolean updateMatch(int id, Matches matches) throws Exception;

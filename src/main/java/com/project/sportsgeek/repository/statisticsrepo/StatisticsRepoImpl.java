@@ -5,7 +5,6 @@ import com.project.sportsgeek.mapper.FutureBetsRowMapper;
 import com.project.sportsgeek.mapper.StatisticsRowMapper;
 import com.project.sportsgeek.model.BetOnTeam;
 import com.project.sportsgeek.model.Statistics;
-import com.project.sportsgeek.query.QueryGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -16,7 +15,6 @@ import java.util.List;
 public class StatisticsRepoImpl implements  StatisticsRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-    private QueryGenerator<Statistics> queryGenerator = new QueryGenerator<Statistics>();
     @Override
     public List<Statistics> findUserStatistics() {
 //        String sql = "select u.UserId,FirstName,LastName,UserName,sum(WinningPoints) as TotalWinningPoints " +
