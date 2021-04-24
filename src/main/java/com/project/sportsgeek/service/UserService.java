@@ -8,8 +8,6 @@ import java.util.Random;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.model.Email;
 import com.project.sportsgeek.model.profile.User;
 import com.project.sportsgeek.model.profile.UserAtLogin;
 import com.project.sportsgeek.model.profile.UserForLoginState;
@@ -37,6 +36,8 @@ public class UserService implements UserDetailsService {
     private int otp;
     private int sendOtp;
 
+    @Autowired
+    EmailService emailService;
 
     public Result<List<User>> findAllUsers() {
         List<User> userList = userRepository.findAllUsers();
@@ -55,7 +56,25 @@ public class UserService implements UserDetailsService {
         }
     }
     public Result<User> findUserByEmailId(User user) throws Exception {
-        return addUser(null);
+    	 List<User> userList = userRepository.findUserByEmailId(user);
+    	 System.out.println(userList);
+         if (userList.size() > 0) {
+             sendOtp = generateOTP();
+             String subject = "Forgot Password OTP Verification!!";
+             String msg = "Hello "+userList.get(0).getFirstName()+" "+userList.get(0).getLastName()+"\n Your OTP For Password Change.\n" +
+                     "OTP:"+ sendOtp +"";
+             System.out.println(msg);
+             Email email = Email.builder()
+                     .setSubject(subject)
+                     .setTo(userList.get(0).getEmail())
+                     .message(msg).build();
+             emailService.sendEmail(email);
+             return new Result<>(200, userList.get(0));
+         }
+         else {
+             return new Result<>(404, "Email Id And Mobile Number Not Found");
+
+         }
     }
     public int generateOTP(){
 
@@ -100,19 +119,32 @@ public class UserService implements UserDetailsService {
     public Result<User> addUser(UserWithPassword userWithPassword) throws Exception {
         int id = userRepository.addUser(userWithPassword);
         userWithPassword.setUserId(id);
-        return addUser(userWithPassword);
+        if (id > 0) {
+        	userRepository.addEmail(userWithPassword);
+        	userRepository.addMobile(userWithPassword);
+		}
+        else
+        {
+        	throw new ResultException(new Result<>(500,"Internal Server Error, unable to Insert"));
+        }
+        return new Result<>(200,userWithPassword);
     }
 
     public Result<User> updateUser(int id, User user) throws Exception {
         if (userRepository.updateUser(id, user)) {
-            return new Result<>(201, (User) user);
+        	userRepository.updateEmail(id,user);
+        	userRepository.updateMobile(id, user);
+        	return new Result<>(201, (User) user);
         }
-
             return new Result<>(400, "Given User Id does not exists");
     }
     public Result<User> deleteUser(int id) throws Exception {
-        int result = userRepository.deleteUser(id);
+        int result = userRepository.deleteEmail(id);
         if (result>0) {
+        	userRepository.deleteMobile(id);
+        	userRepository.deleteRecharge(id);
+        	userRepository.deleteBOT(id);
+        	userRepository.deleteUser(id);
             return new Result<>(201,"User Status Updated Successfully!!");
         }
 
@@ -176,7 +208,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public Result<UserForLoginState> authenticateStatus(UserAtLogin userAtLogin) throws Exception {
+    public Result<UserForLoginState> authenticateStatus( UserAtLogin userAtLogin) throws Exception {
         UserForLoginState userForLoginState =userRepository.authenticate(userAtLogin);
         System.out.println("UserForLoginState:"+userForLoginState);
         if (userForLoginState != null) {

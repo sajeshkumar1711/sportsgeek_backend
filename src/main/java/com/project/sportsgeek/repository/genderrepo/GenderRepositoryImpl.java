@@ -5,20 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.project.sportsgeek.mapper.GenderRowMapper;
 import com.project.sportsgeek.model.Gender;
-import com.project.sportsgeek.query.QueryGenerator;
 
 @Repository(value = "genderRepo")
 public class GenderRepositoryImpl implements GenderRepository{
 
 	@Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-    private QueryGenerator<Gender> queryGenerator = new QueryGenerator<Gender>();
     
 	@Override
 	public List<Gender> findAllGender() {
@@ -34,18 +30,16 @@ public class GenderRepositoryImpl implements GenderRepository{
 
 	@Override
 	public int addGender(Gender gender) throws Exception {
-		KeyHolder holder = new GeneratedKeyHolder();
-        jdbcTemplate.update(queryGenerator.generatePreparedStatementInsertQuery("Gender", gender),
-                new BeanPropertySqlParameterSource(gender), holder);
-        return holder.getKey().intValue();
+		String insert_query = "INSERT INTO Gender (Name) values('" + gender.getName() +")";
+		jdbcTemplate.update(insert_query, new BeanPropertySqlParameterSource(gender));
+		return 1;
 	}
 
 	@Override
 	public boolean updateGender(int id, Gender gender) throws Exception {
-		String sql = "UPDATE `" + "Gender" + "` set "
-                + "`Name` = :name where `GenderId`=:GenderId";
+		String update_sql = "UPDATE Gender SET Name = '" + gender.getName() + "' WHERE GenderId ="+id;
         gender.setGenderId(id);
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(gender)) > 0;
+        return jdbcTemplate.update(update_sql, new BeanPropertySqlParameterSource(gender)) > 0;
 	}
 
 	@Override

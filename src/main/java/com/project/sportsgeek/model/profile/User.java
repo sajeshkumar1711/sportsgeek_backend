@@ -31,9 +31,9 @@ public class User {
     private int GenderId;
     @NotNull
     private String Username;
-    private String ProfilePicture;
     private String Email;
     private String MobileNumber;
+    private String ProfilePicture;
     @NotNull
     private int RoleId;
     private  int AvailablePoints;

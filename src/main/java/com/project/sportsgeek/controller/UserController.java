@@ -129,8 +129,7 @@ public class UserController {
     @PreAuthorize("hasAnyRole('Admin','User')")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Successfully updated schema"), @ApiResponse(code = 404, message = "Schema not found"), @ApiResponse(code = 400, message = "Missing or invalid request body"), @ApiResponse(code = 500, message = "Internal error")})
     public ResponseEntity<Result<UserWithNewPassword>> updatePassword(@RequestBody(required = true) UserWithNewPassword userWithNewPassword) throws  Exception {
-        System.out.println("Try-1:" + bCryptPasswordEncoder.encode("Rushabh@452"));
-        System.out.println("Try-2:" + bCryptPasswordEncoder.encode("Rushabh@452"));
+       
         Result<String> userResult = userService.updatePassword(userWithNewPassword);
         return new ResponseEntity(userResult,HttpStatus.valueOf(userResult.getCode()));
     }
