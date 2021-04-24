@@ -3,13 +3,14 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+
+### eclipse ###
 sportsgeek-74e1e-firebase-adminsdk-4s62v-7cc67b989e
 .classpath
 .project
 target
 bin
 .settings
-.mvn/wrapper
 
 ### STS ###
 .apt_generated
