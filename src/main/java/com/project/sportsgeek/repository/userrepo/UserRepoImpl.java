@@ -186,13 +186,13 @@ public class UserRepoImpl implements UserRepository {
 
 	@Override
 	public boolean updateUserProfilePicture(int userId, String profilePicture) throws Exception {
-		String update_pp = "UPDATE User SET ProfilePicture =" + profilePicture + "WHERE UserId =" + userId;
+		String update_pp = "UPDATE User SET ProfilePicture =" + profilePicture + " WHERE UserId =" + userId;
 		return jdbcTemplate.update(update_pp, new BeanPropertySqlParameterSource(profilePicture)) > 0;
 	}
 
 	@Override
 	public boolean updateUserAvailablePoints(int userId, int availablePoints) throws Exception {
-		String update_AvailablePoints = "UPDATE User SET AvailablePoints =" + availablePoints + "WHERE UserId ="
+		String update_AvailablePoints = "UPDATE User SET AvailablePoints =" + availablePoints + " WHERE UserId ="
 				+ userId;
 		return jdbcTemplate.update(update_AvailablePoints, new BeanPropertySqlParameterSource(availablePoints)) > 0;
 	}

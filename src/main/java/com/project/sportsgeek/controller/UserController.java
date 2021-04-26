@@ -185,15 +185,15 @@ public class UserController {
 
 //	------------------------------------------------- FORGOT PASSWORD CONTROLLER -----------------------------------------------------------------
 
-	@PostMapping("/forget-password")
-	@PreAuthorize("hasAnyRole('Admin','User')")
+	@PostMapping("/send-otp")
+//	@PreAuthorize("hasAnyRole('Admin','User')")
 	public ResponseEntity<Result<User>> getUserByEmailId(@RequestBody(required = true) User user) throws Exception {
 		Result<User> userResult = userService.findUserByEmailId(user);
 		return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
 	}
 
 	@PutMapping("/forget-password")
-	@PreAuthorize("hasAnyRole('Admin','User')")
+//	@PreAuthorize("hasAnyRole('Admin','User')")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "Successfully updated schema"),
 			@ApiResponse(code = 404, message = "Schema not found"),
 			@ApiResponse(code = 400, message = "Missing or invalid request body"),
@@ -223,7 +223,7 @@ public class UserController {
 //	------------------------------------------------- AUTHENTICATION CONTROLLER -----------------------------------------------------------------
 //	---------------------------------------------------------------------------------------------------------------------------------------------
 
-	@PostMapping("/authenticate-status")
+	@PostMapping("/authenticate")
 	@PreAuthorize("hasAnyRole('Admin','User')")
 	public ResponseEntity<Result<UserForLoginState>> authenticateStatus(
 			@RequestBody(required = true) UserAtLogin userAtLogin) throws Exception {
@@ -251,7 +251,6 @@ public class UserController {
 	}
 
 	public String authenticate(@RequestBody(required = true) UserAtLogin userAtLogin) throws Exception {
-		System.out.println(" Rest Authenticate");
 		authenticate(userAtLogin.getUsername(), userAtLogin.getPassword());
 		final UserDetails userDetails = userService.loadUserByUsername(userAtLogin.getUsername());
 		System.out.println("User Details" + userDetails);
