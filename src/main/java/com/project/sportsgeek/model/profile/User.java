@@ -3,7 +3,6 @@ package com.project.sportsgeek.model.profile;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.project.sportsgeek.annotations.QueryHelperPrimaryKey;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -21,7 +20,6 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class User {
 	
-    @QueryHelperPrimaryKey
     private int UserId;
     @NotNull
     private String FirstName;
@@ -31,9 +29,9 @@ public class User {
     private int GenderId;
     @NotNull
     private String Username;
-    private String ProfilePicture;
     private String Email;
     private String MobileNumber;
+    private String ProfilePicture;
     @NotNull
     private int RoleId;
     private  int AvailablePoints;

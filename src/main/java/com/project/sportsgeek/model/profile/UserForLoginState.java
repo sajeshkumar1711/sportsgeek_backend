@@ -12,7 +12,8 @@ import lombok.Setter;
 public class UserForLoginState {
 
 	private int UserId;
-    private String Username;
-    private String Role;
-    private boolean Status;
+	private String Username;
+	private String Role;
+	private boolean Status;
+	private String Token;
 }

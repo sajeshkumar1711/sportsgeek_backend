@@ -4,6 +4,14 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### eclipse ###
+sportsgeek-74e1e-firebase-adminsdk-4s62v-7cc67b989e
+.classpath
+.project
+target
+bin
+.settings
+
 ### STS ###
 .apt_generated
 .classpath
