@@ -1,8 +1,7 @@
 package com.project.sportsgeek.repository.tournamentrepo;
 
-import com.project.sportsgeek.mapper.TournamentRowMapper;
-import com.project.sportsgeek.model.Tournament;
-import com.project.sportsgeek.query.QueryGenerator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -10,11 +9,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.project.sportsgeek.mapper.TournamentRowMapper;
+import com.project.sportsgeek.model.Tournament;
 
 @Repository(value = "tournamentRepo")
 public class TournamentRepositoryImpl implements TournamentRepository {
-    private QueryGenerator<Tournament> queryGenerator = new QueryGenerator<Tournament>();
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -33,9 +32,7 @@ public class TournamentRepositoryImpl implements TournamentRepository {
     @Override
     public int addTournament(Tournament tournament) throws Exception {
         KeyHolder holder = new GeneratedKeyHolder();
-        jdbcTemplate.update(queryGenerator.generatePreparedStatementInsertQuery("Tournament",tournament),
-                new BeanPropertySqlParameterSource(tournament), holder);
-        return holder.getKey().intValue();
+               return holder.getKey().intValue();
     }
 
     @Override

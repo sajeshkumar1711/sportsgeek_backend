@@ -1,28 +1,25 @@
 package com.project.sportsgeek.repository.betonplayerrepo;
 
-import com.project.sportsgeek.config.ServiceProperties;
-import com.project.sportsgeek.mapper.BetOnPlayerRowMapper;
-import com.project.sportsgeek.model.BetOnPlayer;
-import com.project.sportsgeek.model.BetOnPlayerResponse;
-import com.project.sportsgeek.model.Player;
-import com.project.sportsgeek.query.QueryGenerator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.project.sportsgeek.config.ServiceProperties;
+import com.project.sportsgeek.mapper.BetOnPlayerRowMapper;
+import com.project.sportsgeek.model.BetOnPlayer;
+import com.project.sportsgeek.model.BetOnPlayerResponse;
 
 @Repository(value = "betOnPlayerRepo")
 public class BetOnPlayerRepoImpl implements BetOnPlayerRepository{
 
     @Autowired
     NamedParameterJdbcTemplate jdbcTemplate;
-    private final QueryGenerator<BetOnPlayer> queryGenerator = new QueryGenerator<>();
-
+   
     @Autowired
     ServiceProperties serviceProperties;
     @Override
@@ -60,9 +57,7 @@ public class BetOnPlayerRepoImpl implements BetOnPlayerRepository{
     @Override
     public int addBetOnPlayer(BetOnPlayer player) throws Exception {
         KeyHolder holder = new GeneratedKeyHolder();
-        jdbcTemplate.update(queryGenerator.generatePreparedStatementInsertQuery("BetOnPlayer", player),
-                new BeanPropertySqlParameterSource(player), holder);
-        return holder.getKey().intValue();
+           return holder.getKey().intValue();
     }
 
     @Override

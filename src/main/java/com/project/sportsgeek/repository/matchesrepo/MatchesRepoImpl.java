@@ -1,29 +1,24 @@
 package com.project.sportsgeek.repository.matchesrepo;
 
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.stereotype.Repository;
+
 import com.project.sportsgeek.mapper.MatchesRowMapper;
 import com.project.sportsgeek.mapper.TournamentRowMapper;
 import com.project.sportsgeek.model.Matches;
 import com.project.sportsgeek.model.MatchesWithVenue;
-import com.project.sportsgeek.query.QueryGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.List;
 
 @Repository(value = "matchesRepo")
 public class MatchesRepoImpl implements MatchesRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private QueryGenerator<Matches> queryGenerator = new QueryGenerator<Matches>();
     private SimpleJdbcCall simpleJdbcCall;
     @Override
     public List<MatchesWithVenue> findAllMatches() {

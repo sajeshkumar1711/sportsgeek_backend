@@ -1,21 +1,20 @@
 package com.project.sportsgeek.repository.mymatchesrepo;
 
-import com.project.sportsgeek.mapper.MyMatchesResultRowMapper;
-import com.project.sportsgeek.mapper.MyMatchesRowMapper;
-import com.project.sportsgeek.model.MyMatches;
-import com.project.sportsgeek.query.QueryGenerator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.project.sportsgeek.mapper.MyMatchesResultRowMapper;
+import com.project.sportsgeek.mapper.MyMatchesRowMapper;
+import com.project.sportsgeek.model.MyMatches;
 
 @Repository(value = "myMatchesRepo")
 public class MyMatchesRepoImpl implements MyMatchesRepository {
 
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-    private QueryGenerator<MyMatches> queryGenerator = new QueryGenerator<MyMatches>();
 
     @Override
     public List<MyMatches> findUpcomingContestByUserId(int userId) throws Exception {

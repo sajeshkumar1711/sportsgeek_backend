@@ -1,8 +1,7 @@
 package com.project.sportsgeek.repository.playertype;
 
-import com.project.sportsgeek.mapper.PlayerTypeRowMapper;
-import com.project.sportsgeek.model.PlayerType;
-import com.project.sportsgeek.query.QueryGenerator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -10,13 +9,13 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.project.sportsgeek.mapper.PlayerTypeRowMapper;
+import com.project.sportsgeek.model.PlayerType;
 
 @Repository(value = "playerTypeRepo")
 public class PlayerTypeRepoImpl implements PlayerTypeRepository{
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-    private QueryGenerator<PlayerType> queryGenerator = new QueryGenerator<PlayerType>();
     @Override
     public List<PlayerType> findAllPlayerType() {
         String sql = "SELECT * FROM PlayerType";
@@ -32,9 +31,7 @@ public class PlayerTypeRepoImpl implements PlayerTypeRepository{
     @Override
     public int addPlayerType(PlayerType playerType) throws Exception {
         KeyHolder holder = new GeneratedKeyHolder();
-        jdbcTemplate.update(queryGenerator.generatePreparedStatementInsertQuery("PlayerType", playerType),
-                new BeanPropertySqlParameterSource(playerType), holder);
-        return holder.getKey().intValue();
+              return holder.getKey().intValue();
     }
 
     @Override

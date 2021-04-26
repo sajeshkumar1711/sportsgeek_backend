@@ -1,10 +1,7 @@
 package com.project.sportsgeek.repository.playerrepo;
 
-import com.project.sportsgeek.mapper.PlayerRowMapper;
-import com.project.sportsgeek.model.Player;
-import com.project.sportsgeek.model.PlayerResponse;
-import com.project.sportsgeek.model.Venue;
-import com.project.sportsgeek.query.QueryGenerator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -12,13 +9,14 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.project.sportsgeek.mapper.PlayerRowMapper;
+import com.project.sportsgeek.model.Player;
+import com.project.sportsgeek.model.PlayerResponse;
 
 @Repository(value = "playerRepo")
 public class PlayerRepoImpl implements PlayerRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-    private final QueryGenerator<Player> queryGenerator = new QueryGenerator<>();
     @Override
     public List<PlayerResponse> findAllPlayers() {
 //       String sql = "SELECT PlayerId,TeamId,Name,TypeId,ProfilePicture FROM Player";
@@ -54,9 +52,7 @@ public class PlayerRepoImpl implements PlayerRepository {
     @Override
     public int addPlayer(Player player) throws Exception {
         KeyHolder holder = new GeneratedKeyHolder();
-        jdbcTemplate.update(queryGenerator.generatePreparedStatementInsertQuery("Player", player),
-                new BeanPropertySqlParameterSource(player), holder);
-        return holder.getKey().intValue();
+               return holder.getKey().intValue();
     }
 
     @Override
