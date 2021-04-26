@@ -194,35 +194,32 @@ public class UserService implements UserDetailsService {
 	}
 
 //	------------------------------------------------- UPDATE FORGOT PASSWORD SERVICE -------------------------------------------------------------
-	
+	public Result<User> findUserByEmailId(User user) throws Exception {
+		List<User> userList = userRepository.findUserByEmailId(user);
+		if (userList.size() > 0) {
+			sendOtp = generateOTP();
+			String subject = "Forgot Password OTP Verification!!";
+			String msg = "Hello " + userList.get(0).getFirstName() + " " + userList.get(0).getLastName()
+					+ "\n Your OTP For Password Change.\n" + "OTP:" + sendOtp + "";
+			Email email = Email.builder().setSubject(subject).setTo(userList.get(0).getEmail()).message(msg).build();
+			emailService.sendEmail(email);
+			return new Result<>(200, userList.get(0));
+		} else {
+			return new Result<>(404, "Email Id And Mobile Number Not Found");
+		}
+	}
+
 	public int generateOTP() {
 
 		Random random = new Random();
 		otp = 100000 + random.nextInt(900000);
 		return otp;
 	}
-	
-	public Result<User> findUserByEmailId(User user) throws Exception {
-		List<User> userList = userRepository.findUserByEmailId(user);
-		System.out.println(userList);
-		if (userList.size() > 0) {
-			sendOtp = generateOTP();
-			String subject = "Forgot Password OTP Verification!!";
-			String msg = "Hello " + userList.get(0).getFirstName() + " " + userList.get(0).getLastName()
-					+ "\n Your OTP For Password Change.\n" + "OTP:" + sendOtp + "";
-			System.out.println(msg);
-			Email email = Email.builder().setSubject(subject).setTo(userList.get(0).getEmail()).message(msg).build();
-			emailService.sendEmail(email);
-			return new Result<>(200, userList.get(0));
-		} else {
-			return new Result<>(404, "Email Id And Mobile Number Not Found");
 
-		}
-	}
-	
+
 	public Result<String> updateForgetPassword(UserWithOtp userWithOtp) throws Exception {
-		System.out.println("Send OTP in Update Password Service:" + sendOtp);
-		System.out.println("Otp Received by service" + userWithOtp.getOtp());
+//		System.out.println("Send OTP in Update Password Service:" + sendOtp);
+//		System.out.println("Otp Received by service" + userWithOtp.getOtp());
 		if (userWithOtp.getOtp() == sendOtp) {
 			int result = userRepository.updateForgetPassword(userWithOtp);
 			if (result > 0) {
