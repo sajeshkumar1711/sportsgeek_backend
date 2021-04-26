@@ -1,12 +1,7 @@
 package com.project.sportsgeek.repository.betonteamrepo;
 
-import com.project.sportsgeek.mapper.BetOnTeamRowMapper;
-import com.project.sportsgeek.mapper.BetOnTeamWithMatchRowMapper;
-import com.project.sportsgeek.mapper.ContestWithUsersResultRowMapper;
-import com.project.sportsgeek.model.BetOnTeam;
-import com.project.sportsgeek.model.BetOnTeamWithResult;
-import com.project.sportsgeek.model.BetOnTeamWithUser;
-import com.project.sportsgeek.query.QueryGenerator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,13 +9,17 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.project.sportsgeek.mapper.BetOnTeamRowMapper;
+import com.project.sportsgeek.mapper.BetOnTeamWithMatchRowMapper;
+import com.project.sportsgeek.mapper.ContestWithUsersResultRowMapper;
+import com.project.sportsgeek.model.BetOnTeam;
+import com.project.sportsgeek.model.BetOnTeamWithResult;
+import com.project.sportsgeek.model.BetOnTeamWithUser;
 
 @Repository(value = "betOnTeamsRepo")
 public class BetOnTeamRepoImpl implements BetOnTeamRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-    private QueryGenerator<BetOnTeam> queryGenerator = new QueryGenerator<BetOnTeam>();
 
     @Override
     public List<BetOnTeam> findAllBets() {
@@ -103,8 +102,8 @@ public class BetOnTeamRepoImpl implements BetOnTeamRepository {
     @Override
     public int addBetOnTeam(BetOnTeam betOnTeam) throws Exception {
         KeyHolder holder = new GeneratedKeyHolder();
-        jdbcTemplate.update(queryGenerator.generatePreparedStatementInsertQuery("BetOnTeam",betOnTeam),
-                new BeanPropertySqlParameterSource(betOnTeam), holder);
+//        jdbcTemplate.update(queryGenerator.generatePreparedStatementInsertQuery("BetOnTeam",betOnTeam),
+//                new BeanPropertySqlParameterSource(betOnTeam), holder);
         int Userid = betOnTeam.getUserId();
         String sql = "UPDATE User SET AvailablePoints = AvailablePoints - "+betOnTeam.getBetPoints()+" WHERE UserId = "+Userid;
         jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(betOnTeam));

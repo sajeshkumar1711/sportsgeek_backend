@@ -1,8 +1,7 @@
 package com.project.sportsgeek.repository.rechargerepo;
 
-import com.project.sportsgeek.mapper.RechargeRowMapper;
-import com.project.sportsgeek.model.Recharge;
-import com.project.sportsgeek.query.QueryGenerator;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -10,13 +9,13 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.project.sportsgeek.mapper.RechargeRowMapper;
+import com.project.sportsgeek.model.Recharge;
 
 @Repository(value = "rechargeRepo")
 public class RechargeRepoImpl implements RechargeRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-    private QueryGenerator<Recharge> queryGenerator = new QueryGenerator<Recharge>();
 
     @Override
     public List<Recharge> findAllRecharge() {
