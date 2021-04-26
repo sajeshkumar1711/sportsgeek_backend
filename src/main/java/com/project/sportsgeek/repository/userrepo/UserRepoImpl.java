@@ -28,6 +28,10 @@ public class UserRepoImpl implements UserRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
+//	---------------------------------------------------------------------------------------------------------------------------------------------
+//	------------------------------------------------- SELECT QUERY ------------------------------------------------------------------------------
+//	---------------------------------------------------------------------------------------------------------------------------------------------
+	
 	@Override
 	public List<User> findAllUsers() {
 		String sql = "SELECT * FROM User";
@@ -41,13 +45,6 @@ public class UserRepoImpl implements UserRepository {
 	}
 
 	@Override
-	public List<UserWithPassword> findUserByUserName(String userName) throws Exception {
-		String sql = "SELECT u.UserName as UserName,u.Password as Password,r.Name as Name FROM User as u INNER JOIN Role as r on u.RoleId=r.RoleId WHERE UserName='"
-				+ userName + "'";
-		return jdbcTemplate.query(sql, new UserWithPasswordRowMapper());
-	}
-
-	@Override
 	public List<User> findAllUsersByRole(int role) throws Exception {
 		String sql = "SELECT * FROM User WHERE RoleId=" + role;
 		return jdbcTemplate.query(sql, new UserRowMapper());
@@ -58,6 +55,14 @@ public class UserRepoImpl implements UserRepository {
 		String sql = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber "
 				+ "FROM User inner join EmailContact on User.UserId=EmailContact.UserId inner join MobileContact on User.UserId=MobileContact.UserId WHERE EmailContact.EmailId='"
 				+ user.getEmail() + "' AND MobileContact.MobileNumber='" + user.getMobileNumber() + "' ";
+		return jdbcTemplate.query(sql, new UserRowMapper());
+	}
+
+	@Override
+	public List<User> findUsersByStatus(boolean status) throws Exception {
+		String sql = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber "
+				+ "FROM User inner join EmailContact on User.UserId=EmailContact.UserId inner join MobileContact on User.UserId=MobileContact.UserId WHERE User.Status="
+				+ status;
 		return jdbcTemplate.query(sql, new UserRowMapper());
 	}
 
@@ -76,12 +81,35 @@ public class UserRepoImpl implements UserRepository {
 	}
 
 	@Override
-	public List<User> findUsersByStatus(boolean status) throws Exception {
-		String sql = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber "
-				+ "FROM User inner join EmailContact on User.UserId=EmailContact.UserId inner join MobileContact on User.UserId=MobileContact.UserId WHERE User.Status="
-				+ status;
-		return jdbcTemplate.query(sql, new UserRowMapper());
+	public List<UserWithPassword> findUserByUserName(String userName) throws Exception {
+		String sql = "SELECT u.UserName as UserName,u.Password as Password,r.Name as Name FROM User as u INNER JOIN Role as r on u.RoleId=r.RoleId WHERE UserName='"
+				+ userName + "'";
+		return jdbcTemplate.query(sql, new UserWithPasswordRowMapper());
 	}
+
+//	---------------------------------------------------------------------------------------------------------------------------------------------
+//	------------------------------------------------- AUTHENTICATION QUERY ----------------------------------------------------------------------
+//	---------------------------------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public UserForLoginState authenticate(UserAtLogin userAtLogin) throws Exception {
+		String sql = "select u.UserId, u.UserName, r.Name, u.Status from User as u inner join Role as r on u.RoleId = r.RoleId where u.UserName = :username";
+
+		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,
+				new BeanPropertySqlParameterSource(userAtLogin));
+		System.out.println(list.size());
+		if (list.size() > 0) {
+
+			return new UserForLoginState(Integer.parseInt(list.get(0).get("UserId") + ""),
+					list.get(0).get("UserName") + "", list.get(0).get("Name") + "",
+					Boolean.parseBoolean(list.get(0).get("Status").toString()), "");
+		}
+		return null;
+	}
+
+//	--------------------------------------------------------------------------------------------------------------------------------------------
+//	------------------------------------------------- INSERT QUERY -----------------------------------------------------------------------------
+//	---------------------------------------------------------------------------------------------------------------------------------------------
 
 	@Override
 	public int addUser(UserWithPassword userWithPassword) throws Exception {
@@ -109,6 +137,10 @@ public class UserRepoImpl implements UserRepository {
 		return jdbcTemplate.update(mobile_sql, new BeanPropertySqlParameterSource(userWithPassword));
 	}
 
+//	--------------------------------------------------------------------------------------------------------------------------------------------
+//	------------------------------------------------- UPDATE QUERY -----------------------------------------------------------------------------
+//	---------------------------------------------------------------------------------------------------------------------------------------------
+
 	@Override
 	public boolean updateUser(int id, User user) throws Exception {
 		String update_query = "UPDATE User SET FirstName = '" + user.getFirstName() + "' ,LastName = '"
@@ -118,11 +150,7 @@ public class UserRepoImpl implements UserRepository {
 
 	@Override
 	public boolean updateStatus(int id, boolean status) throws Exception {
-		String fetch_user = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber "
-				+ "FROM User inner join EmailContact on User.UserId=EmailContact.UserId inner join MobileContact on User.UserId=MobileContact.UserId WHERE User.UserId=" + id;
-		List<User> userList = jdbcTemplate.query(fetch_user, new UserRowMapper());
-
-		String update_status = "UPDATE User set Status =" + status + "WHERE UserId=" + id;
+		String update_status = "UPDATE User set Status =" + status + " WHERE UserId =" + id;
 		return jdbcTemplate.update(update_status, new BeanPropertySqlParameterSource(id)) > 0;
 	}
 
@@ -170,28 +198,6 @@ public class UserRepoImpl implements UserRepository {
 	}
 
 	@Override
-	public UserForLoginState authenticate(UserAtLogin userAtLogin) throws Exception {
-		String sql = "select `UserId`,`UserName`, `Name` as `Role`,`Status` from User inner join Role on User.RoleId = Role.RoleId where `UserName`=:username";
-
-		List<Map<String, Object>> list = jdbcTemplate.queryForList(sql,
-				new BeanPropertySqlParameterSource(userAtLogin));
-		System.out.println(list.size());
-		if (list.size() > 0) {
-
-			return new UserForLoginState(Integer.parseInt(list.get(0).get("UserId") + ""),
-					list.get(0).get("UserName") + "", list.get(0).get("Role") + "",
-					Boolean.parseBoolean(list.get(0).get("Status").toString()));
-		}
-		return null;
-	}
-
-	@Override
-	public int deleteUser(int id) throws Exception {
-		String delete_user = "DELETE FROM User WHERE UserId=" + id;
-		return jdbcTemplate.update(delete_user, new BeanPropertySqlParameterSource(id));
-	}
-
-	@Override
 	public boolean updateEmail(int id, User user) throws Exception {
 		String update_email = "UPDATE EmailContact SET EmailId = '" + user.getEmail() + "' WHERE UserId = " + id;
 		return jdbcTemplate.update(update_email, new BeanPropertySqlParameterSource(user)) > 0;
@@ -202,6 +208,16 @@ public class UserRepoImpl implements UserRepository {
 		String update_mobile = "UPDATE MobileContact SET MobileNumber='" + user.getMobileNumber() + "' WHERE UserId="
 				+ id;
 		return jdbcTemplate.update(update_mobile, new BeanPropertySqlParameterSource(user)) > 0;
+	}
+
+//	--------------------------------------------------------------------------------------------------------------------------------------------
+//	------------------------------------------------- DELETE QUERY -----------------------------------------------------------------------------
+//	--------------------------------------------------------------------------------------------------------------------------------------------
+
+	@Override
+	public int deleteUser(int id) throws Exception {
+		String delete_user = "DELETE FROM User WHERE UserId=" + id;
+		return jdbcTemplate.update(delete_user, new BeanPropertySqlParameterSource(id));
 	}
 
 	@Override
