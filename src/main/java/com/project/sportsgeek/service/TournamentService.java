@@ -52,14 +52,25 @@ public class TournamentService {
                 .asList(new Result.SportsGeekSystemError(tournament.hashCode(), "given tournamentId('"+id+"') does not exists")))));
     }
     public Result<String> updateActiveTournament(int id) throws Exception {
-        if (tournamentRepository.updateActiveTournament(id)) {
-            return new Result<>(201,"Tournament Activated Successfully");
+
+        if(tournamentRepository.deactivateTournament())
+        {
+            if (tournamentRepository.updateActiveTournament(id)) {
+                return new Result<>(201,"Tournament Activated Successfully");
+            }
+            else
+            {
+                return new Result<>(404,"No Tournament's found to Activate ,please try again");
+            }
         }
-        return new Result<>(404,"No Tournament's found to Activate ,please try again");
+        else
+        {
+            return new Result<>(404,"Deactivation Failed of tournament ,please try again");
+        }
     }
     public Result<Integer> deleteTournament(int id) throws Exception{
         int result = tournamentRepository.deleteTournament(id);
-        if (id > 0) {
+        if (result > 0) {
             return new Result<>(200,"Tournament Deleted Successfully",result);
         }
         throw new ResultException((new Result<>(404,"No Tournament's found to delete ,please try again","Tournament with id=('"+ id +"') not found")));

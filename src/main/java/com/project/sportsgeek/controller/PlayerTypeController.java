@@ -1,8 +1,8 @@
 package com.project.sportsgeek.controller;
 
-import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.exception.PlayerTypeException;
 import com.project.sportsgeek.model.PlayerType;
-import com.project.sportsgeek.model.Venue;
+import com.project.sportsgeek.model.PlayerType;
 import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.PlayerTypeService;
 import io.swagger.annotations.ApiResponse;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,11 +28,12 @@ public class PlayerTypeController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<List<PlayerType>>> getAllPlayerType() {
         Result<List<PlayerType>> playerTypeList = playerTypeService.findAllPlayerType();
         return new ResponseEntity<>(playerTypeList, HttpStatus.valueOf(playerTypeList.getCode()));
@@ -40,12 +42,13 @@ public class PlayerTypeController {
     @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = PlayerTypeException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<PlayerType>> getPlayerTypeById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<PlayerType> playerTypeList = playerTypeService.findPlayerTypeById(id);
         return new ResponseEntity<>(playerTypeList, HttpStatus.valueOf(playerTypeList.getCode()));
@@ -54,12 +57,13 @@ public class PlayerTypeController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = Venue.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = PlayerTypeException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<PlayerType>> addPlayerType(@RequestBody(required = true) @Valid PlayerType PlayerType) throws  Exception {
         Result<PlayerType> playerTypeResult = playerTypeService.addPlayerType(PlayerType);
         return new ResponseEntity(playerTypeResult,HttpStatus.valueOf(playerTypeResult.getCode()));
@@ -68,12 +72,13 @@ public class PlayerTypeController {
     @PutMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 201, message = "success", response = Venue.class),
-                    @ApiResponse(code = 400, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 201, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 400, message = "Bad request", response = PlayerTypeException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<PlayerType>> updatePlayerType(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestBody(required = true) @Valid PlayerType PlayerType) throws Exception {
         Result<PlayerType> playerTypeResult = playerTypeService.updatePlayerType(id,PlayerType);
         return new ResponseEntity(playerTypeResult,HttpStatus.valueOf(playerTypeResult.getCode()));
@@ -81,12 +86,13 @@ public class PlayerTypeController {
     @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = PlayerType.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = PlayerTypeException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = PlayerTypeException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
+    @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<PlayerType>> deletePlayerTypeById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
         Result<Integer> integerResult =  playerTypeService.deletePlayerType(id);
         return new ResponseEntity(integerResult,HttpStatus.valueOf(integerResult.getCode()));

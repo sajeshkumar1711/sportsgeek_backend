@@ -1,20 +1,11 @@
 package com.project.sportsgeek.model;
 
-import java.io.Serializable;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.annotations.ApiModel;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-import io.swagger.annotations.ApiModel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.io.Serializable;
 
 @Builder
 @Data
@@ -28,11 +19,11 @@ import lombok.ToString;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Player implements Serializable {
 
-	private int playerId;
-	private int teamId;
-	@NotNull
-	private String name;
-	private int typeId;
-	private String profilePicture;
-	private Double credits;
+    private int playerId;
+    private int teamId;
+    @NotNull
+    private String name;
+    private int typeId;
+    private String profilePicture;
+    private Double credits;
 }

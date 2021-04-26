@@ -3,6 +3,7 @@ package com.project.sportsgeek.mapper;
 
 import com.project.sportsgeek.model.Matches;
 import com.project.sportsgeek.model.MatchesWithVenue;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -13,7 +14,6 @@ public class MatchesRowMapper implements RowMapper<MatchesWithVenue> {
     public MatchesWithVenue mapRow(ResultSet rs, int rowNum) throws SQLException {
       MatchesWithVenue matches = new MatchesWithVenue();
       matches.setMatchId(rs.getInt("MatchId"));
-      // matches.setStartDatetime(rs.getDate("StartDatetime"));
       matches.setStartDateTime(rs.getTimestamp("StartDatetime"));
       matches.setTeam1(rs.getString("team1long"));
       matches.setTeam1Short(rs.getString("team1short"));

@@ -30,10 +30,12 @@ import java.util.UUID;
 @Service
 public class TeamService {
 
-    private static String TEMP_URL = "" ;
     @Autowired
     @Qualifier("teamRepo")
     TeamRepository teamRepository;
+
+    @Autowired
+    ImageUploadService imageUploadService;
 
     public Result<List<Team>> findAllTeam() {
         List<Team> teamList = teamRepository.findAllTeam();
@@ -51,53 +53,46 @@ public class TeamService {
     }
 
     public Result<Team> addTeam(Team team, MultipartFile multipartFile) throws Exception {
-        try {
-            String fileName = multipartFile.getOriginalFilename();                        // to get original file name
-            fileName = UUID.randomUUID().toString().concat(this.getExtension(fileName));  // to generated random string values for file name.
+        File file = imageUploadService.uploadImage(multipartFile);
+        if (file.toString() != "") {
+            String teamlogo = "https://firebasestorage.googleapis.com/v0/b/sportsgeek-74e1e.appspot.com/o/" +file+"?alt=media&token=e9924ea4-c2d9-4782-bc2d-0fe734431c86";
+            team.setTeamLogo(teamlogo);
+            int id = teamRepository.addTeam(team);
+            if (id > 0) {
+                return new Result<>(201,"Team Added Successfully",team);
+            }
+            else {
+                throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
+                        .asList(new Result.SportsGeekSystemError(team.hashCode(), "unable to add the given team")))));
+            }
+        }
+        else
+        {
+            throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
+                    .asList(new Result.SportsGeekSystemError(team.hashCode(), "unable to upload the image")))));
+        }
 
-            File file = this.convertToFile(multipartFile, fileName);                      // to convert multipartFile to File
-            TEMP_URL = this.uploadFile(file, fileName);                                   // to get uploaded file link
-            file.delete();
-//            System.out.println("File:"+file);// to delete the copy of uploaded file stored in the project folder// Your customized response
-        String teamlogo = "https://firebasestorage.googleapis.com/v0/b/sportsgeek-74e1e.appspot.com/o/" +file+"?alt=media&token=e9924ea4-c2d9-4782-bc2d-0fe734431c86";
-//            System.out.println(teamlogo);
-        team.setTeamLogo(teamlogo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        int id = teamRepository.addTeam(team);
-        team.setTeamId(id);
-        if (id > 0) {
-            return new Result<>(201,"Team Added Successfully",team);
-        }
-        throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(team.hashCode(), "unable to add the given team")))));
     }
-    private String getExtension(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."));
-    }
-    private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
-        File tempFile = new File(fileName);
-        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
-            fos.write(multipartFile.getBytes());
-            fos.close();
+    public Result<Team> updateTeam(int id, Team team,MultipartFile multipartFile) throws Exception {
+        File file = imageUploadService.uploadImage(multipartFile);
+        if (file.toString() != "")
+        {
+            String teamlogo = "https://firebasestorage.googleapis.com/v0/b/sportsgeek-74e1e.appspot.com/o/" +file+"?alt=media&token=e9924ea4-c2d9-4782-bc2d-0fe734431c86";
+            team.setTeamLogo(teamlogo);
+            if (teamRepository.updateTeam(id,team)) {
+                return new Result<>(201,"Team Updated Successfully",team);
+            }
+            else
+            {
+                throw new ResultException(new Result<>(400, "Unable to update the given team details! Please try again!", new ArrayList<>(Arrays
+                        .asList(new Result.SportsGeekSystemError(team.hashCode(), "given teamId('"+id+"') does not exists")))));
+            }
         }
-        return tempFile;
-    }
-    private String uploadFile(File file, String fileName) throws IOException {
-        BlobId blobId = BlobId.of("sportsgeek-74e1e.appspot.com", fileName);
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("media").build();
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("D:\\HIVE_PROJECT\\sportsgeek\\sportsgeek-74e1e-firebase-adminsdk-4s62v-7cc67b989e.json"));
-        Storage storage = StorageOptions.newBuilder().setCredentials(credentials).build().getService();
-        storage.create(blobInfo, Files.readAllBytes(file.toPath()));
-        return String.format("https://firebasestorage.googleapis.com/v0/b/sportsgeek-74e1e.appspot.com/o/", URLEncoder.encode(fileName, String.valueOf(StandardCharsets.UTF_8)));
-    }
-    public Result<Team> updateTeam(int id, Team team) throws Exception {
-        if (teamRepository.updateTeam(id,team)) {
-            return new Result<>(201,"Team Updated Successfully",team);
+        else
+        {
+            throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
+                    .asList(new Result.SportsGeekSystemError(team.hashCode(), "unable to upload the image")))));
         }
-        throw new ResultException(new Result<>(400, "Unable to update the given team details! Please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(team.hashCode(), "given teamId('"+id+"') does not exists")))));
     }
     public Result<Integer> deleteTeam(int id) throws Exception{
         int data = teamRepository.deleteTeam(id);

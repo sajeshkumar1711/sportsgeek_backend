@@ -1,16 +1,15 @@
 package com.project.sportsgeek.repository.statisticsrepo;
 
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Repository;
-
 import com.project.sportsgeek.mapper.FutureBetsRowMapper;
 import com.project.sportsgeek.mapper.StatisticsRowMapper;
 import com.project.sportsgeek.model.BetOnTeam;
 import com.project.sportsgeek.model.Statistics;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository(value = "statRepo")
 public class StatisticsRepoImpl implements  StatisticsRepository {

@@ -1,15 +1,15 @@
 package com.project.sportsgeek.service;
 
+import com.project.sportsgeek.model.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import com.project.sportsgeek.model.Email;
-
 @Service
 public class EmailService {
-	@Autowired
+
+    @Autowired
     private JavaMailSender javaMailSender;
 
     public void sendEmail(Email email) throws  Exception {
@@ -19,4 +19,5 @@ public class EmailService {
             msg.setText(email.getMessage());
             javaMailSender.send(msg);
     }
+
 }
