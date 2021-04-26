@@ -37,7 +37,6 @@ public class VenueException extends ResponseEntityExceptionHandler {
         Result<String> result = new Result<>(500, "unfortunately! there was some error at the server side.", error);
         return new ResponseEntity<>(result, HttpStatus.valueOf(result.getCode()));
     }
-
     @ExceptionHandler({ResultException.class})
     private ResponseEntity<Result<Object>> resultException(ResultException ex) {
         logger.error("\n" + ex.hashCode() + " ---- " + ex.getMessage());
