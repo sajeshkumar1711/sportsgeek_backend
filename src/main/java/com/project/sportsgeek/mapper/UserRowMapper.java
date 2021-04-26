@@ -25,5 +25,4 @@ public class UserRowMapper implements RowMapper<User>{
         user.setMobileNumber(rs.getString("MobileNumber"));
         return user;
 	}
-
 }

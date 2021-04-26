@@ -249,7 +249,6 @@ public class UserController {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 	}
-
 	public String authenticate(@RequestBody(required = true) UserAtLogin userAtLogin) throws Exception {
 		authenticate(userAtLogin.getUsername(), userAtLogin.getPassword());
 		final UserDetails userDetails = userService.loadUserByUsername(userAtLogin.getUsername());

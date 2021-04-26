@@ -194,7 +194,6 @@ public class UserService implements UserDetailsService {
 	}
 
 //	------------------------------------------------- UPDATE FORGOT PASSWORD SERVICE -------------------------------------------------------------
-
 	public Result<User> findUserByEmailId(User user) throws Exception {
 		List<User> userList = userRepository.findUserByEmailId(user);
 		if (userList.size() > 0) {
