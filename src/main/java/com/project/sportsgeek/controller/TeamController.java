@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
@@ -65,7 +66,7 @@ public class TeamController {
     )
     @PreAuthorize("hasRole('Admin')")
 //    @RequestBody(required = true) @Valid Team team
-    public ResponseEntity<Result<Team>> addTeam( @RequestParam("name") String name,@RequestParam("shortName") String shortName,@RequestParam("teamLogo") MultipartFile multipartFile) throws  Exception {
+    public ResponseEntity<Result<Team>> addTeam(@RequestParam("name") @Valid @NotNull(message = " Team Name Can't be Blank ") String name, @RequestParam("shortName") @Valid @NotNull(message = "Team Short name can't be Blank") String shortName, @RequestParam("teamLogo") @Valid MultipartFile multipartFile) throws  Exception {
        String filename = multipartFile.getOriginalFilename();
         Team team = Team.builder()
                 .name(name)
@@ -85,7 +86,7 @@ public class TeamController {
     )
     @PreAuthorize("hasRole('Admin')")
 //    @RequestBody(required = true) @Valid Team team
-    public ResponseEntity<Result<Team>> updateTeam(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestParam("name") String name,@RequestParam("shortName") String shortName,@RequestParam("teamLogo") MultipartFile multipartFile) throws Exception {
+    public ResponseEntity<Result<Team>> updateTeam(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestParam("name") @Valid @NotNull(message = "Team Name Can't be Blank") String name,@RequestParam("shortName") @Valid @NotNull(message = "Team short name can't be Blank") String shortName,@RequestParam("teamLogo") @Valid MultipartFile multipartFile) throws Exception {
         String filename = multipartFile.getOriginalFilename();
         Team team = Team.builder()
                 .name(name)

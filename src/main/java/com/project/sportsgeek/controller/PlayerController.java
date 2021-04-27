@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.List;
 
@@ -95,7 +96,7 @@ public class PlayerController {
     )
     @PreAuthorize("hasRole('Admin')")
 //    @RequestBody(required = true) @Valid Player player
-    public ResponseEntity<Result<Player>> addPlayer(@RequestParam("playerId") int playerId,@RequestParam("teamId") int teamId,@RequestParam("name") String name,@RequestParam("typeId") int typeId,@RequestParam("profilePicture") MultipartFile multipartFile,@RequestParam("credits") Double credits ) throws Exception {
+    public ResponseEntity<Result<Player>> addPlayer(@RequestParam("playerId") @Valid @Pattern(regexp = "[0-9]*") int playerId, @RequestParam("teamId") @Valid @Pattern(regexp = "[0-9]*") int teamId, @RequestParam("name") @Valid @NotNull(message = "Player Name can't be Blank") String name, @RequestParam("typeId") @Valid @Pattern(regexp = "[0-9]*") int typeId, @RequestParam("profilePicture") @Valid  MultipartFile multipartFile, @RequestParam("credits") @Valid @Pattern(regexp = "[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)") Double credits ) throws Exception {
         String filename = multipartFile.getOriginalFilename();
        Player player = Player.builder()
                .playerId(playerId)
@@ -118,7 +119,7 @@ public class PlayerController {
     )
     @PreAuthorize("hasRole('Admin')")
 //    @RequestBody(required = true) @Valid Player player
-    public ResponseEntity<Result<Player>> updatePlayer(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestParam("teamId") int teamId,@RequestParam("name") String name,@RequestParam("typeId") int typeId,@RequestParam("profilePicture") MultipartFile multipartFile,@RequestParam("credits") Double credits) throws Exception {
+    public ResponseEntity<Result<Player>> updatePlayer(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestParam("teamId") @Valid @Pattern(regexp = "[0-9]*") int teamId,@RequestParam("name") @Valid @NotNull(message = "Player Name can't be Blank") String name,@RequestParam("typeId") @Valid @Pattern(regexp = "[0-9]*") int typeId,@RequestParam("profilePicture") @Valid MultipartFile multipartFile,@RequestParam("credits") @Valid @Pattern(regexp = "[0-9]+(\\.[0-9]+)?([Ee][+-]?[0-9]+)") Double credits) throws Exception {
         String filename = multipartFile.getOriginalFilename();
         Player player = Player.builder()
                 .teamId(teamId)

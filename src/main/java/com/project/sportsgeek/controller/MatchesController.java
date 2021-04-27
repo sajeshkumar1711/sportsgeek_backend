@@ -17,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.sql.Timestamp;
 import java.util.List;
@@ -148,7 +149,7 @@ public class MatchesController {
             }
     )
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Result<Matches>> updateMatch(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@ApiParam(value = "tournamentId") @RequestParam("tournamentId") int tournamentId, @ApiParam(value = "name") @RequestParam("name") String name,@ApiParam(value = "startDateTime") @RequestParam("startDateTime") Timestamp startDateTime,@ApiParam(value = "venueId") @RequestParam("venueId") int venueId,@ApiParam(value = "team1") @RequestParam("team1") int team1,@ApiParam(value = "team2") @RequestParam("team2") int team2,@ApiParam(value = "winnerTeamId") @RequestParam("winnerTeamId") int winnerTeamId,@ApiParam(value = "resultStatus") @RequestParam("resultStatus") boolean resultStatus,@ApiParam(value = "minimumBet") @RequestParam("minimumBet") int minimumBet) throws Exception {
+    public ResponseEntity<Result<Matches>> updateMatch(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id, @ApiParam(value = "tournamentId") @RequestParam("tournamentId") @Valid @Pattern(regexp = "[0-9]*") int tournamentId, @ApiParam(value = "name") @RequestParam("name") @Valid @NotNull(message = "Match Name Can't be Blank") String name, @ApiParam(value = "startDateTime") @RequestParam("startDateTime") @Valid @NotNull(message = "Match Date Time can't be Blank") Timestamp startDateTime, @ApiParam(value = "venueId") @RequestParam("venueId") @Valid @Pattern(regexp = "[0-9]*") int venueId, @ApiParam(value = "team1") @RequestParam("team1") @Valid @Pattern(regexp = "[0-9]*") int team1, @ApiParam(value = "team2") @RequestParam("team2") @Valid @Pattern(regexp = "[0-9]*") int team2, @ApiParam(value = "winnerTeamId") @RequestParam("winnerTeamId") @Valid @Pattern(regexp = "[0-9]*") int winnerTeamId, @ApiParam(value = "resultStatus") @RequestParam("resultStatus") @Valid boolean resultStatus, @ApiParam(value = "minimumBet") @RequestParam("minimumBet") @Valid @Pattern(regexp = "[0-9]*") int minimumBet) throws Exception {
         Matches  matches = Matches.builder()
                 .tournamentId(tournamentId)
                 .name(name)
