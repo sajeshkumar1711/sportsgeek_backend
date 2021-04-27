@@ -210,6 +210,18 @@ public class UserRepoImpl implements UserRepository {
 		return jdbcTemplate.update(update_mobile, new BeanPropertySqlParameterSource(user)) > 0;
 	}
 
+	@Override
+	public int addAvailablePoints(User user) throws Exception {
+		String sql = "UPDATE User SET AvailablePoints = AvailablePoints + :availablePoints WHERE UserId = :userId";
+		return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(user));
+	}
+
+	@Override
+	public int deductAvailablePoints(User user) throws Exception {
+		String sql = "UPDATE User SET AvailablePoints = AvailablePoints - :availablePoints WHERE UserId = :userId";
+		return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(user));
+	}
+
 //	--------------------------------------------------------------------------------------------------------------------------------------------
 //	------------------------------------------------- DELETE QUERY -----------------------------------------------------------------------------
 //	--------------------------------------------------------------------------------------------------------------------------------------------
