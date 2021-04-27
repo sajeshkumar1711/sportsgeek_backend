@@ -2,7 +2,7 @@ package com.project.sportsgeek.service;
 
 import com.project.sportsgeek.exception.ResultException;
 import com.project.sportsgeek.model.Venue;
-import com.project.sportsgeek.repository.venue.VenueRepository;
+import com.project.sportsgeek.repository.venuerepo.VenueRepository;
 import com.project.sportsgeek.response.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
