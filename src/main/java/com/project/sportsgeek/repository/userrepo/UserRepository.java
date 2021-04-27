@@ -41,4 +41,6 @@ public interface UserRepository {
     public int deleteRecharge(int id) throws Exception;
     public boolean updateEmail(int id,User user) throws Exception;
     public boolean updateMobile(int id,User user) throws Exception;
+    public int addAvailablePoints(User user) throws Exception;
+    public int deductAvailablePoints(User user) throws Exception;
 }

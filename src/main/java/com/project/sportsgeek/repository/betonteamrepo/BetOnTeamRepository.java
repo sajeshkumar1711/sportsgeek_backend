@@ -14,4 +14,5 @@ public interface BetOnTeamRepository {
     List<BetOnTeamWithResult> findContestResultByMatchId(int matchId) throws Exception;
     int addBetOnTeam(BetOnTeam betOnTeam) throws Exception;
     boolean updateBetOnTeam(int id, BetOnTeam betOnTeam) throws Exception;
+    int getBetPoints(int betTeamId) throws Exception;
 }

@@ -50,26 +50,21 @@ public class BetOnTeamRepoImpl implements BetOnTeamRepository {
         KeyHolder holder = new GeneratedKeyHolder();
         String sql = "INSERT INTO BetOnTeam (UserId, MatchId, TeamId, BetPoints, WinningPoints) VALUES (:userId, :matchId, :teamId, :betPoints, :winningPoints)";
         jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(betOnTeam), holder);
-        sql = "UPDATE User SET AvailablePoints = AvailablePoints - :betPoints WHERE UserId = :userId";
-        jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(betOnTeam));
         return holder.getKey().intValue();
     }
 
     @Override
     public boolean updateBetOnTeam(int id, BetOnTeam betOnTeam) throws Exception {
-        betOnTeam.setBetTeamId(id);
-        // Get old Bet Points
-        String select_betpoints = "SELECT BetTeamId, UserId,MatchId,TeamId,BetPoints,WinningPoints FROM BetOnTeam WHERE BetTeamId="+id;
-        int betpoints = jdbcTemplate.query(select_betpoints, new BetOnTeamWithMatchRowMapper()).get(0).getBetPoints();
-        // Update User Available Points
-        BetOnTeam betOnTeam2 = new BetOnTeam();
-        betOnTeam2.setBetPoints(betpoints-betOnTeam.getBetPoints());
-        betOnTeam2.setUserId(betOnTeam.getUserId());
-        String update_betpoints = "Update User SET AvailablePoints = AvailablePoints + :betPoints WHERE UserId=:userId";
-        jdbcTemplate.update(update_betpoints,new BeanPropertySqlParameterSource(betOnTeam2));
+//        betOnTeam.setBetTeamId(id);
         // Update BetOnTeam
         String sql = "Update BetOnTeam SET TeamId = :teamId, BetPoints = :betPoints WHERE BetTeamId = :betTeamId";
-        return jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(betOnTeam))>0;
+        return jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(betOnTeam)) > 0;
+    }
+
+    @Override
+    public int getBetPoints(int betTeamId) throws Exception {
+        String sql = "SELECT BetTeamId, UserId,MatchId,TeamId,BetPoints,WinningPoints FROM BetOnTeam WHERE BetTeamId=" + betTeamId;
+        return jdbcTemplate.query(sql, new BetOnTeamWithMatchRowMapper()).get(0).getBetPoints();
     }
 
 }
