@@ -26,8 +26,8 @@ public class BetOnTeamService {
         if (id > 0) {
             return new Result<>(201,betonteam);
         }
-        throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(betonteam.hashCode(), "unable to add the given Contest")))));
+        return new Result<>(500, "Unable to add Contest");
+//        throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays.asList(new Result.SportsGeekSystemError(betonteam.hashCode(), "unable to add the given Contest")))));
     }
 
     public Result<List<BetOnTeamWithUser>> findContestById(int id) throws Exception {
@@ -52,7 +52,7 @@ public class BetOnTeamService {
         }
     }
     public Result<BetOnTeam> findContestByUserAndMatch(int userid,int matchid) throws Exception {
-        List<BetOnTeam> contestList = betonTeamRepository.findAllBetsByUserAndMatch(userid,matchid);
+        List<BetOnTeam> contestList = betonTeamRepository.findBetByUserAndMatch(userid,matchid);
         if (contestList.size() > 0) {
             return new Result<>(200, contestList.get(0));
         }
@@ -65,8 +65,7 @@ public class BetOnTeamService {
         if (betonTeamRepository.updateBetOnTeam(id,betOnTeam)) {
             return new Result<>(201,betOnTeam);
         }
-        throw new ResultException(new Result<>(400, "Unable to update the given gender details! Please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(betOnTeam.hashCode(), "given genderId('"+id+"') does not exists")))));
-//            return new Result<>(500,"Not Found");
+//        throw new ResultException(new Result<>(400, "Unable to update the given gender details! Please try again!", new ArrayList<>(Arrays.asList(new Result.SportsGeekSystemError(betOnTeam.hashCode(), "given genderId('"+id+"') does not exists")))));
+            return new Result<>(500,"Not Found");
     }
 }

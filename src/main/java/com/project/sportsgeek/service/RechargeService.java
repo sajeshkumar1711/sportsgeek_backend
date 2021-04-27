@@ -29,7 +29,6 @@ public class RechargeService {
             return new Result<>(200, rechargeList.get(0));
         }
         else {
-//             throw new ResultException((new Result<>(404,"No Recharge's found,please try again","Recharge with id=('"+ id +"') not found")));
             return new Result(404,"No Recharge's found,please try again","Recharge with id=('"+ id +"') not found");
         }
     }
@@ -40,7 +39,6 @@ public class RechargeService {
             return new Result<>(200, rechargeList);
         }
         else {
-//            throw new ResultException((new Result<>(404,"No Recharge's found,please try again","Recharge for User with id=('"+ id +"') not found")));
             return new Result(404,"No Recharge's found,please try again","Recharge with id=('"+ id +"') not found");
         }
     }
