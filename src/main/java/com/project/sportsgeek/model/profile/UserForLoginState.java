@@ -11,9 +11,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserForLoginState {
 
-	private int UserId;
-	private String Username;
-	private String Role;
-	private boolean Status;
-	private String Token;
+    private int UserId;
+    private String Username;
+    private String Role;
+    private boolean Status;
+    private String Token;
 }

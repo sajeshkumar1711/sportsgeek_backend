@@ -1,15 +1,9 @@
 package com.project.sportsgeek.model.profile;
 
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import javax.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Getter
@@ -19,7 +13,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class User {
-	
+
     private int UserId;
     @NotNull
     private String FirstName;
@@ -34,20 +28,20 @@ public class User {
     private String ProfilePicture;
     @NotNull
     private int RoleId;
-    private  int AvailablePoints;
+    private int AvailablePoints;
     private boolean status;
-    
+
     public User(UserWithPassword userWithPassword) {
         super();
-            UserId = userWithPassword.getUserId();
-            FirstName = userWithPassword.getFirstName();
-            LastName = userWithPassword.getLastName();
-            GenderId = userWithPassword.getGenderId();
-            Username = userWithPassword.getUsername();
-            ProfilePicture = userWithPassword.getProfilePicture();
-            RoleId = userWithPassword.getRoleId();
-            AvailablePoints = userWithPassword.getAvailablePoints();
-            status = userWithPassword.isStatus();
-        }
+        UserId = userWithPassword.getUserId();
+        FirstName = userWithPassword.getFirstName();
+        LastName = userWithPassword.getLastName();
+        GenderId = userWithPassword.getGenderId();
+        Username = userWithPassword.getUsername();
+        ProfilePicture = userWithPassword.getProfilePicture();
+        RoleId = userWithPassword.getRoleId();
+        AvailablePoints = userWithPassword.getAvailablePoints();
+        status = userWithPassword.isStatus();
+    }
 
 }

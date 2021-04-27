@@ -1,12 +1,8 @@
 package com.project.sportsgeek.model.profile;
 
-import javax.validation.constraints.NotNull;
+import lombok.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -15,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class UserAtLogin {
 
-	@NotNull
+    @NotNull
     private String Username;
     @NotNull
     private String Password;

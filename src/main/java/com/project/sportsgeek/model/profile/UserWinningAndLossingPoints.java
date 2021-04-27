@@ -1,11 +1,11 @@
 package com.project.sportsgeek.model.profile;
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.io.Serializable;
 
 @Getter
 @Setter
@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserWinningAndLossingPoints implements Serializable {
 
-	private int UserId;
+    private int UserId;
     private int WinningPoints;
     private int LoosingPoints;
 }
