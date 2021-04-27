@@ -1,10 +1,10 @@
 package com.project.sportsgeek.controller;
 
 
-import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.exception.StatisticsException;
 import com.project.sportsgeek.model.BetOnTeam;
 import com.project.sportsgeek.model.Statistics;
-import com.project.sportsgeek.model.Venue;
+import com.project.sportsgeek.model.Statistics;
 import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.StatisticsService;
 import io.swagger.annotations.ApiResponse;
@@ -29,8 +29,8 @@ public class StatisticsController {
     @GetMapping(value = "/users/statistics",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = Statistics.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = StatisticsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -42,8 +42,8 @@ public class StatisticsController {
     @GetMapping(value = "/users/future-bet",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = Statistics.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = StatisticsException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )

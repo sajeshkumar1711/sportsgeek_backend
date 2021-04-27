@@ -1,6 +1,6 @@
 package com.project.sportsgeek.controller;
 
-import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.exception.MyMatchesException;
 import com.project.sportsgeek.model.MyMatches;
 import com.project.sportsgeek.model.Venue;
 import com.project.sportsgeek.response.Result;
@@ -30,9 +30,9 @@ public class MyMatchesController {
     @GetMapping(value = "/users/{id}/upcoming",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = MyMatches.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = MyMatchesException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = MyMatchesException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -44,9 +44,9 @@ public class MyMatchesController {
     @GetMapping(value = "/users/{id}/live",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = MyMatches.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = MyMatchesException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = MyMatchesException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
@@ -58,9 +58,9 @@ public class MyMatchesController {
     @GetMapping(value = "users/{id}/result",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
-                    @ApiResponse(code = 200, message = "success", response = Venue.class),
-                    @ApiResponse(code = 404, message = "Bad request", response = ResultException.class),
-                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = ResultException.class),
+                    @ApiResponse(code = 200, message = "success", response = MyMatches.class),
+                    @ApiResponse(code = 404, message = "Bad request", response = MyMatchesException.class),
+                    @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = MyMatchesException.class),
                     @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
             }
     )
