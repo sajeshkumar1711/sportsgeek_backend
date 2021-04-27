@@ -32,7 +32,7 @@ public interface UserRepository {
     public int updateForgetPassword(UserWithOtp userWithOtp) throws Exception;
     public int updateUserRole(int userId, int role) throws Exception;
     public boolean updateUserProfilePicture(int userId , String profilePicture) throws Exception;
-    public boolean updateUserAvailablePoints(int uderId, int availablePoints) throws Exception;
+    public boolean updateUserAvailablePoints(int userId, int availablePoints) throws Exception;
     public UserForLoginState authenticate( UserAtLogin userAtLogin) throws Exception;
     public int deleteUser(int id) throws Exception;
     public int deleteEmail(int id) throws Exception;

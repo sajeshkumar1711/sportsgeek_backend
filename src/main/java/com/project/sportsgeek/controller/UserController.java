@@ -122,7 +122,7 @@ public class UserController {
 //	---------------------------------------------------------------------------------------------------------------------------------------------
 
 	@PostMapping("/add-user")
-	public ResponseEntity<Result<User>> addUsers(@RequestBody(required = true) UserWithPassword userWithPassword)
+	public ResponseEntity<Result<User>> addUser(@RequestBody(required = true) UserWithPassword userWithPassword)
 			throws Exception {
 		userWithPassword.setPassword(bCryptPasswordEncoder.encode(userWithPassword.getPassword()));
 		Result<User> userResult = userService.addUser(userWithPassword);

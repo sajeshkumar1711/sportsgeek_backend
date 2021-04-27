@@ -31,7 +31,6 @@ public class RechargeRepoImpl implements RechargeRepository {
 
     @Override
     public List<Recharge> findRechargeByUserId(int id) throws Exception {
-//        String sql = "SELECT * FROM Recharge WHERE UserId=" + i;
         String sql = "SELECT Recharge.UserId as UserId,UserName,Points,RechargeDatetime,RechargeId FROM Recharge Inner Join User on User.UserId = Recharge.UserId WHERE Recharge.UserId=" + id;
         return jdbcTemplate.query(sql,new RechargeRowMapper());
     }
@@ -40,9 +39,9 @@ public class RechargeRepoImpl implements RechargeRepository {
     public int addRecharge(Recharge recharge) throws Exception {
         try {
             KeyHolder holder = new GeneratedKeyHolder();
-            String sql = "INSERT  INTO Recharge(UserId,Points) VALUES("+recharge.getUserId()+",'"+recharge.getPoints()+"')";
+            String sql = "INSERT  INTO Recharge(UserId,Points) VALUES(:userId, :points)";
             jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(recharge), holder);
-            String update_user ="Update User SET AvailablePoints=AvailablePoints+"+recharge.getPoints()+" WHERE UserId="+recharge.getUserId();
+            String update_user ="Update User SET AvailablePoints=AvailablePoints+:points WHERE UserId=:userId";
             int n = jdbcTemplate.update(update_user,new BeanPropertySqlParameterSource(recharge));
             if(n > 0) {
                 return holder.getKey().intValue();
@@ -60,15 +59,17 @@ public class RechargeRepoImpl implements RechargeRepository {
             // Get old recharge points
 //            String sql = "SELECT * FROM Recharge WHERE RechargeId="+id;
             String sql = "SELECT Recharge.UserId as UserId,UserName,Points,RechargeDatetime,RechargeId FROM Recharge Inner Join User on User.UserId = Recharge.UserId WHERE RechargeId=" + id;
-            int oldRechargePoints = jdbcTemplate.query(sql,new RechargeRowMapper()).get(0).getPoints();
+            int oldRechargePoints = jdbcTemplate.query(sql, new RechargeRowMapper()).get(0).getPoints();
             // Update user available points
             int difference = recharge.getPoints() - oldRechargePoints;
-            String update_user ="Update User SET AvailablePoints=AvailablePoints+"+difference+" WHERE UserId="+recharge.getUserId();
-            jdbcTemplate.update(update_user,new BeanPropertySqlParameterSource(recharge));
+            Recharge recharge2 = new Recharge();
+            recharge2.setPoints(difference);
+            recharge2.setUserId(recharge.getUserId());
+            String update_user ="Update User SET AvailablePoints=AvailablePoints+:points WHERE UserId=:userId";
+            jdbcTemplate.update(update_user,new BeanPropertySqlParameterSource(recharge2));
             // Update recharge table
             recharge.setRechargeId(id);
-            sql = "UPDATE Recharge set "
-                    + "`UserId` = :userId, `Points` = :points where `RechargeId`=:rechargeId";
+            sql = "UPDATE Recharge set UserId = :userId, Points = :points where RechargeId=:rechargeId";
             return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(recharge)) > 0;
         }catch(Exception e){
 //            System.out.println("Exception : " + e.toString());
@@ -83,12 +84,11 @@ public class RechargeRepoImpl implements RechargeRepository {
             String sql = "SELECT Recharge.UserId as UserId,UserName,Points,RechargeDatetime,RechargeId FROM Recharge Inner Join User on User.UserId = Recharge.UserId WHERE RechargeId=" + id;
             Recharge recharge = jdbcTemplate.query(sql,new RechargeRowMapper()).get(0);
             // Update user available points
-            String update_user ="Update User SET AvailablePoints=AvailablePoints-"+recharge.getPoints()+" WHERE UserId="+recharge.getUserId();
+            String update_user ="Update User SET AvailablePoints=AvailablePoints-:points WHERE UserId=:userId";
             jdbcTemplate.update(update_user,new BeanPropertySqlParameterSource(recharge));
             // Update recharge table
-            recharge.setRechargeId(id);
-            sql = "DELETE FROM Recharge WHERE RechargeId =" + id;
-            return  jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(id));
+            sql = "DELETE FROM Recharge WHERE RechargeId = :rechargeId";
+            return  jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(recharge));
         }catch(Exception e){
             return 0;
         }

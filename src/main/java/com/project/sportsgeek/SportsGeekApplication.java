@@ -15,10 +15,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableScheduling
 @EnableEncryptableProperties
-public class SportSGeekApplication {
+public class SportsGeekApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SportSGeekApplication.class, args);
+		SpringApplication.run(SportsGeekApplication.class, args);
 	}
 	@Bean
 	public Docket api(){
