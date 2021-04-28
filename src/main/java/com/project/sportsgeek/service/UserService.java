@@ -130,6 +130,22 @@ public class UserService implements UserDetailsService {
         if (id > 0) {
             userRepository.addEmail(userWithPassword);
             userRepository.addMobile(userWithPassword);
+            //Send Email to User
+			String subject = "New User Registration!!";
+			String msg = "Hello "+userWithPassword.getFirstName()+" "+userWithPassword.getLastName()+"\n Welcome to SportsGeek.\n" +
+					"Your account is pending for approval by Admin. Wait For the Response of the approval of account.";
+			Email email = Email.builder().setSubject(subject).setTo(userWithPassword.getEmail()).message(msg).build();
+			emailService.sendEmail(email);
+
+			//Send Email to Admin
+			String admin_subject = "New User Registration Approval!!";
+			String adm_msg = "Hello Admin \n New user With Name:"+userWithPassword.getFirstName()+" "+userWithPassword.getLastName()+" and username: "+userWithPassword.getUsername()+" " +
+					" has Registered for SportsGeek, Please Approve if he/she is a valid user.\n" +
+					"Thanking you\n" +
+					"SportsGeek Team";
+			String admin_email ="admn.sportsgeek@gmail.com";
+			Email adm_sendemail = Email.builder().setSubject(admin_subject).setTo(admin_email).message(adm_msg).build();
+			emailService.sendEmail(adm_sendemail);
             return new Result<>(200, userWithPassword);
         } else {
             throw new ResultException(new Result<>(500, "User Already Exists"));
