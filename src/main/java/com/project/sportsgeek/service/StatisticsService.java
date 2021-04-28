@@ -20,10 +20,11 @@ public class StatisticsService {
 
     public Result<List<Statistics>> findAllStatistics() {
         List<Statistics> statList = statisticsRepository.findUserStatistics();
-        return new Result<>(200,"Statistics Retrieved Successfully",statList);
+        return new Result<>(200, "Statistics Retrieved Successfully", statList);
     }
+
     public Result<List<BetOnTeam>> findFutureBets() {
         List<BetOnTeam> betList = statisticsRepository.findFutureBetPoints();
-        return new Result<>(200,"Future Bets Retrieved Successfully",betList);
+        return new Result<>(200, "Future Bets Retrieved Successfully", betList);
     }
 }

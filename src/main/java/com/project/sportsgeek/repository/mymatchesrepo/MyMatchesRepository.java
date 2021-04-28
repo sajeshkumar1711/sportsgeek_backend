@@ -9,6 +9,8 @@ import java.util.List;
 public interface MyMatchesRepository {
 
     public List<MyMatches> findUpcomingContestByUserId(int userId) throws Exception;
+
     public List<MyMatches> findLiveContestByUserId(int userId) throws Exception;
+
     public List<MyMatches> findResultContestByUserId(int userId) throws Exception;
 }

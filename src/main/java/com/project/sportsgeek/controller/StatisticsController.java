@@ -4,7 +4,6 @@ package com.project.sportsgeek.controller;
 import com.project.sportsgeek.exception.StatisticsException;
 import com.project.sportsgeek.model.BetOnTeam;
 import com.project.sportsgeek.model.Statistics;
-import com.project.sportsgeek.model.Statistics;
 import com.project.sportsgeek.response.Result;
 import com.project.sportsgeek.service.StatisticsService;
 import io.swagger.annotations.ApiResponse;
@@ -26,12 +25,12 @@ public class StatisticsController {
     @Autowired
     StatisticsService statisticsService;
 
-    @GetMapping(value = "/users/statistics",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/statistics", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Statistics.class),
                     @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = StatisticsException.class),
-                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
+                    @ApiResponse(code = 403, message = "Forbidden!! Access is Denied!")
             }
     )
     @PreAuthorize("hasAnyRole('Admin','User')")
@@ -39,12 +38,13 @@ public class StatisticsController {
         Result<List<Statistics>> statList = statisticsService.findAllStatistics();
         return new ResponseEntity<>(statList, HttpStatus.valueOf(statList.getCode()));
     }
-    @GetMapping(value = "/users/future-bet",produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "/users/future-bet", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Statistics.class),
                     @ApiResponse(code = 500, message = "Unfortunately there is technical error while processing your request", response = StatisticsException.class),
-                    @ApiResponse(code = 403 , message = "Forbidden!! Access is Denied!")
+                    @ApiResponse(code = 403, message = "Forbidden!! Access is Denied!")
             }
     )
     @PreAuthorize("hasAnyRole('Admin','User')")

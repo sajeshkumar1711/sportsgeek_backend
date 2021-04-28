@@ -5,20 +5,19 @@ import com.project.sportsgeek.model.PlayerType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository(value = "playerTypeRepo")
-public class PlayerTypeRepoImpl implements PlayerTypeRepository{
+public class PlayerTypeRepoImpl implements PlayerTypeRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
+
     @Override
     public List<PlayerType> findAllPlayerType() {
         String sql = "SELECT * FROM PlayerType";
-        return jdbcTemplate.query(sql,new PlayerTypeRowMapper());
+        return jdbcTemplate.query(sql, new PlayerTypeRowMapper());
     }
 
     @Override
@@ -26,7 +25,7 @@ public class PlayerTypeRepoImpl implements PlayerTypeRepository{
         String sql = "SELECT * FROM PlayerType WHERE PlayerTypeId=:playerTypeId";
         PlayerType playerType = new PlayerType();
         playerType.setPlayerTypeId(i);
-        return jdbcTemplate.query(sql,new BeanPropertySqlParameterSource(playerType),new PlayerTypeRowMapper());
+        return jdbcTemplate.query(sql, new BeanPropertySqlParameterSource(playerType), new PlayerTypeRowMapper());
     }
 
     @Override
@@ -48,6 +47,6 @@ public class PlayerTypeRepoImpl implements PlayerTypeRepository{
         String sql = "DELETE FROM PlayerType WHERE PlayerTypeId =:playerTypeId";
         PlayerType playerType = new PlayerType();
         playerType.setPlayerTypeId(id);
-        return  jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(playerType));
+        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(playerType));
     }
 }

@@ -2,10 +2,6 @@ package com.project.sportsgeek.scheduling;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 @Component
 public class GetLiveScoreFromAPI {

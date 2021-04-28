@@ -20,17 +20,16 @@ public class RechargeService {
 
     public Result<List<Recharge>> findAllRecharge() {
         List<Recharge> rechargeList = rechargeRepository.findAllRecharge();
-        return new Result<>(200,rechargeList);
+        return new Result<>(200, rechargeList);
     }
 
     public Result<Recharge> findRechargeByRechargeId(int id) throws Exception {
         List<Recharge> rechargeList = rechargeRepository.findRechargeByRechargeId(id);
         if (rechargeList.size() > 0) {
             return new Result<>(200, rechargeList.get(0));
-        }
-        else {
+        } else {
 //             throw new ResultException((new Result<>(404,"No Recharge's found,please try again","Recharge with id=('"+ id +"') not found")));
-            return new Result(404,"No Recharge's found,please try again","Recharge with id=('"+ id +"') not found");
+            return new Result(404, "No Recharge's found,please try again", "Recharge with id=('" + id + "') not found");
         }
     }
 
@@ -38,10 +37,9 @@ public class RechargeService {
         List<Recharge> rechargeList = rechargeRepository.findRechargeByUserId(id);
         if (rechargeList.size() > 0) {
             return new Result<>(200, rechargeList);
-        }
-        else {
+        } else {
 //            throw new ResultException((new Result<>(404,"No Recharge's found,please try again","Recharge for User with id=('"+ id +"') not found")));
-            return new Result(404,"No Recharge's found,please try again","Recharge with id=('"+ id +"') not found");
+            return new Result(404, "No Recharge's found,please try again", "Recharge with id=('" + id + "') not found");
         }
     }
 
@@ -49,25 +47,26 @@ public class RechargeService {
         int id = rechargeRepository.addRecharge(recharge);
         recharge.setRechargeId(id);
         if (id > 0) {
-            return new Result<>(201,recharge);
+            return new Result<>(201, recharge);
         }
         throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
                 .asList(new Result.SportsGeekSystemError(recharge.hashCode(), "unable to add the given Recharge")))));
     }
+
     public Result<Recharge> updateRecharge(int id, Recharge recharge) throws Exception {
-        if (rechargeRepository.updateRecharge(id,recharge)) {
-            return new Result<>(201,recharge);
+        if (rechargeRepository.updateRecharge(id, recharge)) {
+            return new Result<>(201, recharge);
         }
         throw new ResultException(new Result<>(400, "Unable to update the given Recharge details! Please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(recharge.hashCode(), "given RechargeId('"+id+"') does not exists")))));
+                .asList(new Result.SportsGeekSystemError(recharge.hashCode(), "given RechargeId('" + id + "') does not exists")))));
     }
-    public Result<Integer> deleteRecharge(int id) throws Exception{
+
+    public Result<Integer> deleteRecharge(int id) throws Exception {
         int data = rechargeRepository.deleteRecharge(id);
         if (data > 0) {
-            return new Result<>(200,data);
-        }
-        else {
-            throw new ResultException((new Result<>(404,"No Recharge's found to delete,please try again","Recharge with id=('"+ id +"') not found")));
+            return new Result<>(200, data);
+        } else {
+            throw new ResultException((new Result<>(404, "No Recharge's found to delete,please try again", "Recharge with id=('" + id + "') not found")));
         }
     }
 }

@@ -1,6 +1,5 @@
 package com.project.sportsgeek.exception;
 
-import com.project.sportsgeek.model.Tournament;
 import com.project.sportsgeek.response.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
