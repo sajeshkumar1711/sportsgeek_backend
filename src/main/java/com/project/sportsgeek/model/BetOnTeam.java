@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModel;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Builder
@@ -21,18 +20,12 @@ import java.io.Serializable;
 public class BetOnTeam implements Serializable {
 
     private int betTeamId;
-    @NotNull(message = "User Id can't be Null")
-    @Pattern(regexp = "[0-9]*")
+    @NotNull
     private int userId;
-    @NotNull(message = "Match Id can't be Null")
-    @Pattern(regexp = "[0-9]*")
+    @NotNull
     private int matchId;
-    @NotNull(message = "Team Id can't be Null")
-    @Pattern(regexp = "[0-9]*")
+    @NotNull
     private int teamId;
-    @NotNull(message = "Bet Points can't be Null")
-    @Pattern(regexp = "[0-9]*")
     private int betPoints;
-    @Pattern(regexp = "[0-9]*")
     private int winningPoints;
 }

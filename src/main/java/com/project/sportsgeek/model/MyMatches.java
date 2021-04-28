@@ -22,12 +22,16 @@ import java.sql.Timestamp;
 public class MyMatches implements Serializable {
 
     private int MatchId;
+    @NotNull
     private String TeamName;
+    @NotNull
     private int BetPoints;
+    @NotNull
     private String Team1Short;
     private String Team1Logo;
     private String Team2Short;
     private String Team2Logo;
+    @NotNull
     private String Venue;
     private Timestamp StartDatetime;
     private String WinnerTeamName;

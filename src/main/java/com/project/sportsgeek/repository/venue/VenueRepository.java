@@ -1,4 +1,4 @@
-package com.project.sportsgeek.repository.venuerepo;
+package com.project.sportsgeek.repository.venue;
 
 import com.project.sportsgeek.model.Venue;
 import org.springframework.stereotype.Repository;

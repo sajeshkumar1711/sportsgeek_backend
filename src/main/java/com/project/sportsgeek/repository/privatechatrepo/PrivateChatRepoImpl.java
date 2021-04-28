@@ -21,7 +21,8 @@ public class PrivateChatRepoImpl implements PrivateChatRepository {
     public List<PrivateChat> findPrivateChatByUserId(int userid1, int userid2) throws Exception {
         String sql = "SELECT PrivateChatId, FromUserId, ToUserId, Message, ChatTimestamp FROM PrivateChat WHERE (FromUserId=" + userid1 + " AND ToUserId=" + userid2 + ") OR (FromUserId=" + userid2 + " AND ToUserId=" + userid1 + ") ORDER BY PrivateChatId";
         System.out.println(sql);
-        return jdbcTemplate.query(sql,new PrivateChatRowMapper());
+//        String sql = "SELECT PrivateChatId, FromUserId, ToUserId, Message, ChatTimestamp FROM PrivateChat WHERE FromUserId=" + userid1 + " AND ToUserId=" + userid2;
+        return jdbcTemplate.query(sql, new PrivateChatRowMapper());
     }
 
     @Override
@@ -41,9 +42,7 @@ public class PrivateChatRepoImpl implements PrivateChatRepository {
 
     @Override
     public int deletePrivateChat(int id) throws Exception {
-        String sql = "DELETE FROM PrivateChat WHERE PrivateChatId=:privateChatId";
-        PrivateChat privateChat = new PrivateChat();
-        privateChat.setPrivateChatId(id);
-        return  jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(privateChat));
+        String sql = "DELETE FROM PrivateChat WHERE PrivateChatId =" + id;
+        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(id));
     }
 }

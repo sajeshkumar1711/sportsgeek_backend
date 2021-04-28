@@ -21,6 +21,6 @@ import java.io.Serializable;
 public class PlayerType implements Serializable {
 
     private int playerTypeId;
-    @NotNull(message = "Player Type can't be Blank")
+    @NotNull
     private String typeName;
 }

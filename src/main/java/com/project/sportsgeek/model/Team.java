@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -21,10 +20,9 @@ import java.io.Serializable;
 public class Team implements Serializable {
 
     private int teamId;
-    @NotNull(message = "Team name can't be blank")
+    @NotNull
     private String name;
-    @NotNull(message = "Team short name can't be blank")
+    @NotNull
     private String shortName;
-    @Valid
     private String teamLogo;
 }

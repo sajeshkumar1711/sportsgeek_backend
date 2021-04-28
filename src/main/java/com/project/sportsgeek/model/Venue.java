@@ -20,6 +20,6 @@ import java.io.Serializable;
 public class Venue implements Serializable {
 
     private int venueId;
-    @NotNull(message = "Venue Name Can't be Blank")
+    @NotNull
     private String name;
 }
