@@ -1,4 +1,4 @@
-package com.project.sportsgeek.repository.venue;
+package com.project.sportsgeek.repository.venuerepo;
 
 import com.project.sportsgeek.mapper.VenueRowMapper;
 import com.project.sportsgeek.model.Venue;

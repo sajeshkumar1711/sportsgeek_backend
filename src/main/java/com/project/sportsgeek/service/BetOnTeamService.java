@@ -1,13 +1,17 @@
 package com.project.sportsgeek.service;
 
 import com.project.sportsgeek.exception.ResultException;
+import com.project.sportsgeek.mapper.BetOnTeamWithMatchRowMapper;
 import com.project.sportsgeek.model.BetOnTeam;
 import com.project.sportsgeek.model.BetOnTeamWithResult;
 import com.project.sportsgeek.model.BetOnTeamWithUser;
+import com.project.sportsgeek.model.profile.User;
 import com.project.sportsgeek.repository.betonteamrepo.BetOnTeamRepository;
+import com.project.sportsgeek.repository.userrepo.UserRepository;
 import com.project.sportsgeek.response.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,15 +23,27 @@ public class BetOnTeamService {
     @Autowired
     @Qualifier("betOnTeamsRepo")
     BetOnTeamRepository betonTeamRepository;
+    @Autowired
+    @Qualifier("userRepo")
+    UserRepository userRepository;
 
-    public Result<BetOnTeam> addContest(BetOnTeam betonteam) throws Exception {
-        int id = betonTeamRepository.addBetOnTeam(betonteam);
-        betonteam.setBetTeamId(id);
+    public Result<BetOnTeam> addContest(BetOnTeam betOnTeam) throws Exception {
+        int id = betonTeamRepository.addBetOnTeam(betOnTeam);
+        betOnTeam.setBetTeamId(id);
         if (id > 0) {
-            return new Result<>(201, betonteam);
+            User user = new User();
+            user.setUserId(betOnTeam.getUserId());
+            user.setAvailablePoints(betOnTeam.getBetPoints());
+            int n = userRepository.deductAvailablePoints(user);
+            if(n > 0){
+                return new Result<>(201,betOnTeam);
+            }
+            else{
+                return new Result<>(500, "Unable to update user available points.");
+            }
         }
-        throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(betonteam.hashCode(), "unable to add the given Contest")))));
+        return new Result<>(500, "Unable to add Contest");
+//        throw new ResultException(new Result<>(400, "Error!, please try again!", new ArrayList<>(Arrays.asList(new Result.SportsGeekSystemError(betonteam.hashCode(), "unable to add the given Contest")))));
     }
 
     public Result<List<BetOnTeamWithUser>> findContestById(int id) throws Exception {
@@ -36,37 +52,49 @@ public class BetOnTeamService {
         if (contestList.size() > 0) {
             System.out.println("Contest Service Called");
             return new Result<>(200, contestList);
-        } else {
-            return new Result(404, "No Contest's found,please try again", "Match with id=('" + id + "') not found");
+        }
+        else {
+            return new Result(404,"No Contest's found,please try again","Match with id=('"+ id +"') not found");
         }
     }
-
     public Result<List<BetOnTeamWithResult>> findContestResultByMatchId(int id) throws Exception {
 //	    System.out.println("Service : " + id);
         List<BetOnTeamWithResult> contestList = betonTeamRepository.findContestResultByMatchId(id);
         if (contestList.size() > 0) {
             return new Result<>(200, contestList);
-        } else {
-            return new Result(404, "No Contest's found,please try again", "Match with id=('" + id + "') not found");
+        }
+        else {
+            return new Result(404,"No Contest's found,please try again","Match with id=('"+ id +"') not found");
         }
     }
-
-    public Result<BetOnTeam> findContestByUserAndMatch(int userid, int matchid) throws Exception {
-        List<BetOnTeam> contestList = betonTeamRepository.findAllBetsByUserAndMatch(userid, matchid);
+    public Result<BetOnTeam> findContestByUserAndMatch(int userid,int matchid) throws Exception {
+        List<BetOnTeam> contestList = betonTeamRepository.findBetByUserAndMatch(userid,matchid);
         if (contestList.size() > 0) {
             return new Result<>(200, contestList.get(0));
-        } else {
+        }
+        else {
 //            throw new ResultException((new Result<>(404,"No Contest's found,please try again","Contest with id=('"+ userid +"') not found")));
             return new Result<>(500, "No Data Found!");
         }
     }
-
     public Result<BetOnTeam> updateContest(int id, BetOnTeam betOnTeam) throws Exception {
-        if (betonTeamRepository.updateBetOnTeam(id, betOnTeam)) {
-            return new Result<>(201, betOnTeam);
+        betOnTeam.setBetTeamId(id);
+        // Get old Bet Points
+        int oldBetPoints = betonTeamRepository.getBetPoints(id);
+        if (betonTeamRepository.updateBetOnTeam(id,betOnTeam)) {
+            // Update User Available Points
+            User user = new User();
+            user.setUserId(betOnTeam.getUserId());
+            user.setAvailablePoints(oldBetPoints-betOnTeam.getBetPoints());
+            int n = userRepository.addAvailablePoints(user);
+            if(n > 0){
+                return new Result<>(201,betOnTeam);
+            }
+            else{
+                return new Result<>(500, "Unable to update user available points.");
+            }
         }
-        throw new ResultException(new Result<>(400, "Unable to update the given gender details! Please try again!", new ArrayList<>(Arrays
-                .asList(new Result.SportsGeekSystemError(betOnTeam.hashCode(), "given genderId('" + id + "') does not exists")))));
-//            return new Result<>(500,"Not Found");
+//        throw new ResultException(new Result<>(400, "Unable to update the given gender details! Please try again!", new ArrayList<>(Arrays.asList(new Result.SportsGeekSystemError(betOnTeam.hashCode(), "given genderId('"+id+"') does not exists")))));
+            return new Result<>(500,"Not Found");
     }
 }

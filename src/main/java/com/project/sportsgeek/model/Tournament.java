@@ -20,6 +20,6 @@ import java.io.Serializable;
 public class Tournament implements Serializable {
 
     private int tournamentId;
-    @NotNull
+    @NotNull(message = "Tournament Name can't be Blank")
     private String name;
 }
