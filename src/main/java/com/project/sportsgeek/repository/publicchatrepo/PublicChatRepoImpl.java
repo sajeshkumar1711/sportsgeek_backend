@@ -48,10 +48,8 @@ public class PublicChatRepoImpl implements PublicChatRepository {
 
     @Override
     public int deletePublicChat(int id) throws Exception {
-        String sql = "DELETE FROM PublicChat WHERE PublicChatId=:publicChatId";
-        PublicChat publicChat = new PublicChat();
-        publicChat.setPublicChatId(id);
-        return  jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(publicChat));
+        String sql = "DELETE FROM PublicChat WHERE PublicChatId =" + id;
+        return  jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(id));
     }
 
 }

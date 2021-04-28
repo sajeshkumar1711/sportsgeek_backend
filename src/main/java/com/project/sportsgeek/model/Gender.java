@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Gender {
-	
+
     private int GenderId;
     private String Name;
 }

@@ -1,13 +1,10 @@
 package com.project.sportsgeek.model.profile;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import lombok.*;
+
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -16,7 +13,8 @@ import lombok.ToString;
 @ToString
 public class UserWithNewPassword {
 
-	@Min(1)
+    @Min(1)
+    @JsonAlias({"UserId"})
     private int UserId;
     @NotNull
     private String oldPassword;
