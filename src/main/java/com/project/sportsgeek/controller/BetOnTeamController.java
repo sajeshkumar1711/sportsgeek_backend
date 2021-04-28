@@ -32,12 +32,12 @@ public class BetOnTeamController {
             }
     )
     @PreAuthorize("hasAnyRole('Admin','User')")
-    public ResponseEntity<Result<BetOnTeam>> addContest(@RequestBody(required = true) BetOnTeam betonteam) throws Exception {
+    public ResponseEntity<Result<BetOnTeam>> addContest(@RequestBody(required = true) BetOnTeam betonteam) throws  Exception {
         Result<BetOnTeam> betonResult = betonteamservice.addContest(betonteam);
         return new ResponseEntity(betonResult, HttpStatus.valueOf(betonResult.getCode()));
     }
 
-    @GetMapping(path = "/contest/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/contest/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = BetOnTeam.class),
@@ -52,7 +52,7 @@ public class BetOnTeamController {
         return new ResponseEntity<>(contestList, HttpStatus.valueOf(contestList.getCode()));
     }
 
-    @GetMapping(value = "/matches/{matchId}/contest", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/matches/{matchId}/contest",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = BetOnTeam.class),
@@ -66,7 +66,7 @@ public class BetOnTeamController {
         return new ResponseEntity<>(contestList, HttpStatus.valueOf(contestList.getCode()));
     }
 
-    @GetMapping(value = "/users/{userId}/contest/{matchId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{userId}/contest/{matchId}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = BetOnTeam.class),
@@ -75,12 +75,12 @@ public class BetOnTeamController {
             }
     )
     @PreAuthorize("hasAnyRole('Admin','User')")
-    public ResponseEntity<Result<BetOnTeam>> getContestByUserAndMatch(@PathVariable int userId, @PathVariable int matchId) throws Exception {
+    public ResponseEntity<Result<BetOnTeam>> getContestByUserAndMatch(@PathVariable int userId , @PathVariable int matchId) throws Exception {
         Result<BetOnTeam> contestList = betonteamservice.findContestByUserAndMatch(userId, matchId);
         return new ResponseEntity<>(contestList, HttpStatus.valueOf(contestList.getCode()));
     }
 
-    @PutMapping(value = "/contest/{betTeamId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/contest/{betTeamId}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = BetOnTeam.class),
@@ -89,8 +89,8 @@ public class BetOnTeamController {
             }
     )
     @PreAuthorize("hasAnyRole('Admin','User')")
-    public ResponseEntity<Result<BetOnTeam>> updateContest(@PathVariable int betTeamId, @RequestBody(required = true) BetOnTeam betOnTeam) throws Exception {
-        Result<BetOnTeam> betOnTeamResult = betonteamservice.updateContest(betTeamId, betOnTeam);
-        return new ResponseEntity(betOnTeamResult, HttpStatus.valueOf(betOnTeamResult.getCode()));
+    public ResponseEntity<Result<BetOnTeam>> updateContest(@PathVariable int betTeamId,@RequestBody(required = true) BetOnTeam betOnTeam) throws Exception {
+        Result<BetOnTeam> betOnTeamResult = betonteamservice.updateContest(betTeamId,betOnTeam);
+        return new ResponseEntity(betOnTeamResult,HttpStatus.valueOf(betOnTeamResult.getCode()));
     }
 }

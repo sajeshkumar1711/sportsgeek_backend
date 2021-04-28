@@ -5,6 +5,7 @@ import com.google.cloud.storage.BlobId;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
+import com.project.sportsgeek.model.Team;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Service
 public class ImageUploadService {
 
-    private static String TEMP_URL = "";
+    private static String TEMP_URL = "" ;
 
     public File uploadImage(MultipartFile multipartFile) {
         try {
@@ -38,11 +39,9 @@ public class ImageUploadService {
             return ex_file;
         }
     }
-
     private String getExtension(String fileName) {
         return fileName.substring(fileName.lastIndexOf("."));
     }
-
     private File convertToFile(MultipartFile multipartFile, String fileName) throws IOException {
         File tempFile = new File(fileName);
         try (FileOutputStream fos = new FileOutputStream(tempFile)) {

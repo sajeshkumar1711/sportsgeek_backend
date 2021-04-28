@@ -5,6 +5,8 @@ import com.project.sportsgeek.model.Team;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,11 +23,11 @@ public class TeamRepositoryImpl implements TeamRepository {
     }
 
     @Override
-    public List<Team> findTeamById(int i) throws Exception {
+    public List<Team> findTeamById(int i) throws Exception{
         String sql = "SELECT * FROM Team WHERE TeamId =:teamId";
         Team team = new Team();
         team.setTeamId(i);
-        return jdbcTemplate.query(sql, new BeanPropertySqlParameterSource(team), new TeamRowMapper());
+        return jdbcTemplate.query(sql,new BeanPropertySqlParameterSource(team),new TeamRowMapper());
     }
 
     @Override
@@ -47,6 +49,6 @@ public class TeamRepositoryImpl implements TeamRepository {
         String sql = "DELETE FROM Team WHERE TeamId =:teamId";
         Team team = new Team();
         team.setTeamId(id);
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(team));
+        return jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(team));
     }
 }

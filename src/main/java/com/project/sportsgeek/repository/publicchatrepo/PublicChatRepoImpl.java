@@ -1,6 +1,7 @@
 package com.project.sportsgeek.repository.publicchatrepo;
 
 import com.project.sportsgeek.mapper.PublicChatWithUserRowMapper;
+import com.project.sportsgeek.mapper.VenueRowMapper;
 import com.project.sportsgeek.model.PublicChat;
 import com.project.sportsgeek.model.PublicChatWithUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +22,13 @@ public class PublicChatRepoImpl implements PublicChatRepository {
     @Override
     public List<PublicChatWithUser> findAllPublicChat() {
         String sql = "SELECT PublicChatId, pc.UserId as UserId, u.FirstName as FirstName, u.LastName as LastName, Message, pc.Status as Status, ChatTimestamp FROM PublicChat as pc INNER JOIN User as u on pc.UserId=u.UserId";
-        return jdbcTemplate.query(sql, new PublicChatWithUserRowMapper());
+        return jdbcTemplate.query(sql,new PublicChatWithUserRowMapper());
     }
 
     @Override
     public List<PublicChatWithUser> findPublicChatById(int id) throws Exception {
         String sql = "SELECT PublicChatId, pc.UserId as UserId, u.FirstName as FirstName, u.LastName as LastName, Message, pc.Status as Status, ChatTimestamp FROM PublicChat as pc INNER JOIN User as u on pc.UserId=u.UserId WHERE PublicChatId=" + id;
-        return jdbcTemplate.query(sql, new PublicChatWithUserRowMapper());
+        return jdbcTemplate.query(sql,new PublicChatWithUserRowMapper());
     }
 
     @Override
@@ -48,7 +49,7 @@ public class PublicChatRepoImpl implements PublicChatRepository {
     @Override
     public int deletePublicChat(int id) throws Exception {
         String sql = "DELETE FROM PublicChat WHERE PublicChatId =" + id;
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(id));
+        return  jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(id));
     }
 
 }

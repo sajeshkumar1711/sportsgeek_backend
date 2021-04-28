@@ -19,6 +19,6 @@ public class ContestWithUsersResultRowMapper implements RowMapper<BetOnTeamWithR
         betOnTeamWithResult.setWinningPoints(rs.getInt("WinningPoints"));
         betOnTeamWithResult.setProfilePicture(rs.getString("ProfilePicture"));
         betOnTeamWithResult.setUsername(rs.getString("Username"));
-        return betOnTeamWithResult;
+        return  betOnTeamWithResult;
     }
 }

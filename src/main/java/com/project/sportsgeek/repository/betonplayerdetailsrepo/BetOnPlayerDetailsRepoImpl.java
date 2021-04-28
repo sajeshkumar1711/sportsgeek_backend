@@ -7,6 +7,8 @@ import com.project.sportsgeek.model.BetPlayerDetailsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,14 +25,13 @@ public class BetOnPlayerDetailsRepoImpl implements BetOnPlayerDetailsRepo {
                 "FROM BetOnPlayerDetails as b INNER JOIN Player as p on b.PlayerId=p.PlayerId INNER JOIN Team as t on p.TeamId=t.TeamId INNER JOIN PlayerType as pt on p.TypeId=pt.PlayerTypeId INNER JOIN BetOnPlayer as bp on b.BetPlayerId=bp.BetPlayerId INNER JOIN User as u on bp.UserId=u.UserId";
         return jdbcTemplate.query(sql, new BetPlayerDetailRowMapper());
     }
-
     @Override
     public List<BetPlayerDetailsResponse> findBetPlayerDetailsByBetPlayerId(int betPlayerId) throws Exception {
         String sql = "SELECT b.playerPoints as PlayerPoints,b.BetPlayerId as BetPlayerId, b.PlayerNo as PlayerNo, t.ShortName as TeamName, p.Name as Name, pt.TypeName as TypeName, p.ProfilePicture as ProfilePicture, u.Username as UserName, u.FirstName as FirstName, u.LastName as LastName " +
                 "FROM BetOnPlayerDetails as b INNER JOIN Player as p on b.PlayerId=p.PlayerId INNER JOIN Team as t on p.TeamId=t.TeamId INNER JOIN PlayerType as pt on p.TypeId=pt.PlayerTypeId INNER JOIN BetOnPlayer as bp on b.BetPlayerId=bp.BetPlayerId INNER JOIN User as u on bp.UserId=u.UserId WHERE b.BetPlayerId=:betPlayerId";
         BetOnPlayerDetails betOnPlayerDetails = new BetOnPlayerDetails();
         betOnPlayerDetails.setBetPlayerId(betPlayerId);
-        return jdbcTemplate.query(sql, new BeanPropertySqlParameterSource(betOnPlayerDetails), new BetPlayerDetailRowMapper());
+        return jdbcTemplate.query(sql,new BeanPropertySqlParameterSource(betOnPlayerDetails), new BetPlayerDetailRowMapper());
     }
 
     @Override
@@ -49,7 +50,7 @@ public class BetOnPlayerDetailsRepoImpl implements BetOnPlayerDetailsRepo {
     }
 
     @Override
-    public int updateBetPlayerDetails(int betPlayerId, int playerNo, BetOnPlayerDetails betOnPlayerDetails) throws Exception {
+    public int updateBetPlayerDetails(int betPlayerId,int playerNo, BetOnPlayerDetails betOnPlayerDetails) throws Exception {
         String sql = "UPDATE betonplayerdetails SET PlayerId=:playerId,PlayerPoints=:playerPoints WHERE BetPlayerId=:betPlayerId AND PlayerNo=:playerNo";
         betOnPlayerDetails.setBetPlayerId(betPlayerId);
         betOnPlayerDetails.setPlayerNo(playerNo);
@@ -71,6 +72,6 @@ public class BetOnPlayerDetailsRepoImpl implements BetOnPlayerDetailsRepo {
         String sql = "DELETE FROM betonplayerdetails WHERE BetPlayerId=:betPlayerId";
         BetOnPlayerDetails betOnPlayerDetails = new BetOnPlayerDetails();
         betOnPlayerDetails.setBetPlayerId(betPlayerId);
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(betOnPlayerDetails));
+        return  jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(betOnPlayerDetails));
     }
 }

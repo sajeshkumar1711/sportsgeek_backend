@@ -5,6 +5,8 @@ import com.project.sportsgeek.model.Venue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,21 +20,21 @@ public class VenueRepoImpl implements VenueRepository {
     @Override
     public List<Venue> findAllVenue() {
         String sql = "SELECT * FROM Venue";
-        return jdbcTemplate.query(sql, new VenueRowMapper());
+        return jdbcTemplate.query(sql,new VenueRowMapper());
     }
 
     @Override
     public List<Venue> findVenueById(int id) throws Exception {
         String sql = "SELECT * FROM Venue WHERE VenueId=:venueId";
-        Venue venue = new Venue();
+        Venue venue =  new Venue();
         venue.setVenueId(id);
-        return jdbcTemplate.query(sql, new BeanPropertySqlParameterSource(venue), new VenueRowMapper());
+        return jdbcTemplate.query(sql,new BeanPropertySqlParameterSource(venue),new VenueRowMapper());
     }
 
     @Override
     public int addVenue(Venue venue) throws Exception {
-        String sql = "INSERT INTO Venue(Name) VALUES(:name)";
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(venue));
+       String sql = "INSERT INTO Venue(Name) VALUES(:name)";
+       return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(venue));
     }
 
     @Override
@@ -48,6 +50,6 @@ public class VenueRepoImpl implements VenueRepository {
         String sql = "DELETE FROM Venue WHERE VenueId =:venueId";
         Venue venue = new Venue();
         venue.setVenueId(id);
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(venue));
+        return  jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(venue));
     }
 }

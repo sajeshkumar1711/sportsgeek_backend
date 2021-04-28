@@ -1,5 +1,6 @@
 package com.project.sportsgeek.mapper;
 
+import com.project.sportsgeek.model.BetOnPlayer;
 import com.project.sportsgeek.model.BetOnPlayerResponse;
 import org.springframework.jdbc.core.RowMapper;
 

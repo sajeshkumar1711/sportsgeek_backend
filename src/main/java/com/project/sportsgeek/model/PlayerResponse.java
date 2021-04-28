@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Builder

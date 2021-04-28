@@ -34,7 +34,6 @@ public class Result<T> {
         this.message = message;
         this.data = data;
     }
-
     public Result(int code, List<SportsGeekSystemError> error) {
         super();
         this.code = code;
@@ -60,7 +59,6 @@ public class Result<T> {
         this.message = message;
         addErrorToList(error);
     }
-
     public Result(int code, String message, T data, List<SportsGeekSystemError> error) {
         super();
         this.code = code;
@@ -107,7 +105,6 @@ public class Result<T> {
         }
         this.errors.add(error);
     }
-
     @Override
     public String toString() {
         return "SportsGeekSystemResponse [message=" + message + ", data=" + data + ", errors=" + errors + "]";

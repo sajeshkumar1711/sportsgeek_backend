@@ -34,7 +34,7 @@ public class RechargeController {
         return new ResponseEntity<>(rechargeList, HttpStatus.valueOf(rechargeList.getCode()));
     }
 
-    @GetMapping(path = "/recharge/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/recharge/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Recharge.class),
@@ -47,7 +47,6 @@ public class RechargeController {
         Result<Recharge> rechargeList = rechargeService.findRechargeByRechargeId(id);
         return new ResponseEntity<>(rechargeList, HttpStatus.valueOf(rechargeList.getCode()));
     }
-
     @GetMapping(path = "/users/{id}/recharge", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
@@ -71,12 +70,12 @@ public class RechargeController {
             }
     )
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Result<Recharge>> addRecharge(@RequestBody(required = true) Recharge recharge) throws Exception {
+    public ResponseEntity<Result<Recharge>> addRecharge(@RequestBody(required = true) Recharge recharge) throws  Exception {
         Result<Recharge> rechargeResult = rechargeService.addRecharge(recharge);
-        return new ResponseEntity(rechargeResult, HttpStatus.valueOf(rechargeResult.getCode()));
+        return new ResponseEntity(rechargeResult,HttpStatus.valueOf(rechargeResult.getCode()));
     }
 
-    @PutMapping(value = "/recharge/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/recharge/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = Recharge.class),
@@ -85,12 +84,12 @@ public class RechargeController {
             }
     )
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Result<Recharge>> updateRecharge(@PathVariable int id, @RequestBody(required = true) Recharge recharge) throws Exception {
-        Result<Recharge> rechargeResult = rechargeService.updateRecharge(id, recharge);
-        return new ResponseEntity(rechargeResult, HttpStatus.valueOf(rechargeResult.getCode()));
+    public ResponseEntity<Result<Recharge>> updateRecharge(@PathVariable int id,@RequestBody(required = true) Recharge recharge) throws Exception {
+        Result<Recharge> rechargeResult = rechargeService.updateRecharge(id,recharge);
+        return new ResponseEntity(rechargeResult,HttpStatus.valueOf(rechargeResult.getCode()));
     }
 
-    @DeleteMapping(value = "/recharge/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/recharge/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = Recharge.class),
@@ -100,7 +99,7 @@ public class RechargeController {
     )
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Result<Recharge>> deleteRechargeById(@PathVariable int id) throws Exception {
-        Result<Integer> integerResult = rechargeService.deleteRecharge(id);
-        return new ResponseEntity(integerResult, HttpStatus.valueOf(integerResult.getCode()));
+        Result<Integer> integerResult =  rechargeService.deleteRecharge(id);
+        return new ResponseEntity(integerResult,HttpStatus.valueOf(integerResult.getCode()));
     }
 }

@@ -12,12 +12,12 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-    public void sendEmail(Email email) throws Exception {
+    public void sendEmail(Email email) throws  Exception {
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo(email.getSetTo());
-        msg.setSubject(email.getSetSubject());
-        msg.setText(email.getMessage());
-        javaMailSender.send(msg);
+            msg.setTo(email.getSetTo());
+            msg.setSubject(email.getSetSubject());
+            msg.setText(email.getMessage());
+            javaMailSender.send(msg);
     }
 
 }

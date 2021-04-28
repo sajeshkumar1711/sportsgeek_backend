@@ -10,16 +10,10 @@ import java.util.List;
 public interface BetOnPlayerDetailsRepo {
 
     public List<BetPlayerDetailsResponse> findAllPlayerDetails();
-
     public List<BetPlayerDetailsResponse> findBetPlayerDetailsByBetPlayerId(int betPlayerId) throws Exception;
-
     public List<BetPlayerDetailsResponse> findAllBetPlayerDetailsByUserId(int userId) throws Exception;
-
     public int addBetPlayerDetails(BetOnPlayerDetails betOnPlayerDetails) throws Exception;
-
-    public int updateBetPlayerDetails(int betPlayerId, int playerNo, BetOnPlayerDetails betOnPlayerDetails) throws Exception;
-
-    public int updatePlayerPoints(int betPlayerId, int playerNo, int playerPoints) throws Exception;
-
+    public int updateBetPlayerDetails(int betPlayerId,int playerNo,BetOnPlayerDetails betOnPlayerDetails) throws Exception;
+    public int updatePlayerPoints(int betPlayerId,int playerNo,int playerPoints) throws Exception;
     public int deleteBetPlayerDetails(int betPlayerId) throws Exception;
 }

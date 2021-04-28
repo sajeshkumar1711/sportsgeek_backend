@@ -22,22 +22,22 @@ public class TournamentRepositoryImpl implements TournamentRepository {
 
     @Override
     public List<Tournament> findTournamentById(int i) throws Exception {
-        String sql = "SELECT * FROM Tournament WHERE TournamentId =:tournamentId";
-        Tournament tournament = new Tournament();
-        tournament.setTournamentId(i);
-        return jdbcTemplate.query(sql, new BeanPropertySqlParameterSource(tournament), new TournamentRowMapper());
+            String sql = "SELECT * FROM Tournament WHERE TournamentId =:tournamentId";
+            Tournament tournament = new Tournament();
+            tournament.setTournamentId(i);
+            return jdbcTemplate.query(sql,new BeanPropertySqlParameterSource(tournament),new TournamentRowMapper());
     }
 
     @Override
     public List<Tournament> findTournamentByActive() throws Exception {
         String tournament_sql = "SELECT * from Tournament WHERE active = true";
-        return jdbcTemplate.query(tournament_sql, new TournamentRowMapper());
+       return jdbcTemplate.query(tournament_sql,new TournamentRowMapper());
     }
 
     @Override
     public int addTournament(Tournament tournament) throws Exception {
-        String sql = "INSERT INTO Tournament (Name,active) VALUES(:name,0)";
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(tournament));
+       String sql = "INSERT INTO Tournament (Name,active) VALUES(:name,0)";
+       return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(tournament));
     }
 
     @Override
@@ -59,7 +59,7 @@ public class TournamentRepositoryImpl implements TournamentRepository {
     @Override
     public boolean deactivateTournament() throws Exception {
         String deactive_tournament = "UPDATE Tournament SET active=0 WHERE active=1";
-        return jdbcTemplate.update(deactive_tournament, new BeanPropertySqlParameterSource(deactive_tournament)) > 0;
+        return jdbcTemplate.update(deactive_tournament,new BeanPropertySqlParameterSource(deactive_tournament)) > 0;
     }
 
     @Override
@@ -67,6 +67,6 @@ public class TournamentRepositoryImpl implements TournamentRepository {
         String sql = "DELETE FROM Tournament WHERE TournamentId =:tournamentId";
         Tournament tournament = new Tournament();
         tournament.setTournamentId(id);
-        return jdbcTemplate.update(sql, new BeanPropertySqlParameterSource(tournament));
+        return jdbcTemplate.update(sql,new BeanPropertySqlParameterSource(tournament));
     }
 }

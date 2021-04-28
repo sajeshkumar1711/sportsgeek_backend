@@ -13,17 +13,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Pattern;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Pattern;
+
 @RestController
-@RequestMapping(path = "/private-chat", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/private-chat",produces = MediaType.APPLICATION_JSON_VALUE)
 public class PrivateChatController {
     @Autowired
     PrivateChatService privateChatService;
 
-    @GetMapping(value = "/users/{userid1}/{userid2}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/users/{userid1}/{userid2}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = PrivateChat.class),
@@ -51,7 +52,7 @@ public class PrivateChatController {
         return new ResponseEntity(privateChatResult, HttpStatus.valueOf(privateChatResult.getCode()));
     }
 
-    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 201, message = "success", response = PrivateChat.class),
@@ -60,12 +61,12 @@ public class PrivateChatController {
             }
     )
     @PreAuthorize("hasAnyRole('Admin','User')")
-    public ResponseEntity<Result<PrivateChat>> updatePrivateChat(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id, @RequestBody(required = true) @Valid PrivateChat privateChat) throws Exception {
+    public ResponseEntity<Result<PrivateChat>> updatePrivateChat(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id,@RequestBody(required = true) @Valid PrivateChat privateChat) throws Exception {
         Result<PrivateChat> privateChatResult = privateChatService.updatePrivateChat(id, privateChat);
-        return new ResponseEntity(privateChatResult, HttpStatus.valueOf(privateChatResult.getCode()));
+        return new ResponseEntity(privateChatResult,HttpStatus.valueOf(privateChatResult.getCode()));
     }
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiResponses(value =
             {
                     @ApiResponse(code = 200, message = "success", response = PrivateChat.class),
@@ -75,7 +76,7 @@ public class PrivateChatController {
     )
     @PreAuthorize("hasAnyRole('Admin','User')")
     public ResponseEntity<Result<PrivateChat>> deletePrivateChatById(@PathVariable @Valid @Pattern(regexp = "[0-9]*") int id) throws Exception {
-        Result<Integer> integerResult = privateChatService.deletePrivateChat(id);
-        return new ResponseEntity(integerResult, HttpStatus.valueOf(integerResult.getCode()));
+        Result<Integer> integerResult =  privateChatService.deletePrivateChat(id);
+        return new ResponseEntity(integerResult,HttpStatus.valueOf(integerResult.getCode()));
     }
 }

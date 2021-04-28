@@ -12,10 +12,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository(value = "statRepo")
-public class StatisticsRepoImpl implements StatisticsRepository {
+public class StatisticsRepoImpl implements  StatisticsRepository {
     @Autowired
     private NamedParameterJdbcTemplate jdbcTemplate;
-
     @Override
     public List<Statistics> findUserStatistics() {
 //        String sql = "select u.UserId,FirstName,LastName,UserName,sum(WinningPoints) as TotalWinningPoints " +
@@ -36,6 +35,6 @@ public class StatisticsRepoImpl implements StatisticsRepository {
                 "FROM BetOnTeam as bot inner join Matches as m on bot.MatchId=m.MatchId\n" +
                 "WHERE ResultStatus IS NULL \n" +
                 "GROUP BY UserId ORDER BY UserId";
-        return jdbcTemplate.query(sql, new FutureBetsRowMapper());
+       return jdbcTemplate.query(sql , new FutureBetsRowMapper());
     }
 }

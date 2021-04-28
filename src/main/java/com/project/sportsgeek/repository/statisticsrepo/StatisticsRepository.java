@@ -10,6 +10,5 @@ import java.util.List;
 public interface StatisticsRepository {
 
     public List<Statistics> findUserStatistics();
-
     public List<BetOnTeam> findFutureBetPoints();
 }

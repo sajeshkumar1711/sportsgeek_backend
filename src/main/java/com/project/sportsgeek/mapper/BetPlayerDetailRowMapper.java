@@ -1,6 +1,8 @@
 package com.project.sportsgeek.mapper;
 
+import com.project.sportsgeek.model.BetOnPlayerDetails;
 import com.project.sportsgeek.model.BetPlayerDetailsResponse;
+import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
