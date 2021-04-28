@@ -106,7 +106,7 @@ public class UserService implements UserDetailsService {
 //	------------------------------------------------- AUTHENTICATION SERVICE --------------------------------------------------------------------
 //	---------------------------------------------------------------------------------------------------------------------------------------------
 
-    public Result<UserForLoginState> authenticateStatus(UserAtLogin userAtLogin) throws Exception {
+    public Result<UserForLoginState> authenticate(UserAtLogin userAtLogin) throws Exception {
         UserForLoginState userForLoginState = userRepository.authenticate(userAtLogin);
         System.out.println("UserForLoginState:" + userForLoginState);
         if (userForLoginState != null) {

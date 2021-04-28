@@ -211,7 +211,7 @@ public class UserController {
 
         String token = authenticate(userAtLogin);
 
-        Result<UserForLoginState> userResult = userService.authenticateStatus(userAtLogin);
+        Result<UserForLoginState> userResult = userService.authenticate(userAtLogin);
         UserForLoginState u = userResult.getData();
         u.setToken(token);
         userResult.setData(u);
