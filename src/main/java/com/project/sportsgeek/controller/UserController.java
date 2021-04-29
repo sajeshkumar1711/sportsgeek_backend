@@ -208,9 +208,7 @@ public class UserController {
     @PostMapping("/authenticate")
     public ResponseEntity<Result<UserForLoginState>> authenticateStatus(
             @RequestBody(required = true) UserAtLogin userAtLogin) throws Exception {
-
-        String token = authenticate(userAtLogin);
-
+        String token = generateToken(userAtLogin);
         Result<UserForLoginState> userResult = userService.authenticate(userAtLogin);
         UserForLoginState u = userResult.getData();
         u.setToken(token);
@@ -231,7 +229,7 @@ public class UserController {
         }
     }
 
-    public String authenticate(@RequestBody(required = true) UserAtLogin userAtLogin) throws Exception {
+    public String generateToken(@RequestBody(required = true) UserAtLogin userAtLogin) throws Exception {
         System.out.println(" Rest Authenticate");
         authenticate(userAtLogin.getUsername(), userAtLogin.getPassword());
         final UserDetails userDetails = userService.loadUserByUsername(userAtLogin.getUsername());
