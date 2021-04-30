@@ -34,7 +34,7 @@ public class UserRepoImpl implements UserRepository {
 
     @Override
     public List<User> findUserByUserId(int userId) throws Exception {
-        String sql = "SELECT * FROM User WHERE UserId=:userId";
+        String sql = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber FROM User inner join EmailContact on User.UserId=EmailContact.UserId inner join MobileContact on User.UserId=MobileContact.UserId WHERE User.UserId=:userId";
         User user = new User();
         user.setUserId(userId);
         return namedParameterJdbcTemplate.query(sql, new BeanPropertySqlParameterSource(user), new UserRowMapper());
@@ -50,10 +50,9 @@ public class UserRepoImpl implements UserRepository {
 
     @Override
     public List<User> findUserByEmailId(User user) throws Exception {
-        String sql = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber "
-                + "FROM User inner join EmailContact on User.UserId=EmailContact.UserId inner join MobileContact on User.UserId=MobileContact.UserId WHERE EmailContact.EmailId='"
-                + user.getEmail() + "' AND MobileContact.MobileNumber='" + user.getMobileNumber() + "' ";
-        return namedParameterJdbcTemplate.query(sql, new UserRowMapper());
+    	String sql = "SELECT User.UserId as UserId, FirstName, LastName, GenderId, RoleId, Username, AvailablePoints, ProfilePicture, Status, EmailContact.EmailId as Email, MobileContact.MobileNumber as MobileNumber "
+                + "FROM User inner join EmailContact on User.UserId=EmailContact.UserId inner join MobileContact on User.UserId=MobileContact.UserId WHERE EmailContact.EmailId=:email AND MobileContact.MobileNumber=:mobileNumber";
+    	return namedParameterJdbcTemplate.query(sql, new UserRowMapper());
     }
 
     @Override
@@ -100,8 +99,7 @@ public class UserRepoImpl implements UserRepository {
 
     @Override
     public UserForLoginState authenticate(UserAtLogin userAtLogin) throws Exception {
-        String sql = "select u.UserId, u.UserName, r.Name, u.Status from User as u inner join Role as r on u.RoleId = r.RoleId where u.UserName = '"
-                + userAtLogin.getUsername() + "'";
+        String sql = "select u.UserId, u.UserName, r.Name, u.Status from User as u inner join Role as r on u.RoleId = r.RoleId where u.UserName=:username";
 
         List<Map<String, Object>> list = namedParameterJdbcTemplate.queryForList(sql,
                 new BeanPropertySqlParameterSource(userAtLogin));
@@ -122,7 +120,7 @@ public class UserRepoImpl implements UserRepository {
     @Override
     public int addUser(UserWithPassword userWithPassword) throws Exception {
         RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
-        namedParameterJdbcTemplate.query("select * from User WHERE UserName='" + userWithPassword.getUsername() + "'",
+        namedParameterJdbcTemplate.query("select * from User WHERE UserName= :username", new BeanPropertySqlParameterSource(userWithPassword),
                 countCallback);
         int username = countCallback.getRowCount();
         System.out.println("UserName Count :- " + username);
@@ -140,7 +138,7 @@ public class UserRepoImpl implements UserRepository {
 
         RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
         namedParameterJdbcTemplate
-                .query("select * from EmailContact WHERE UserId='" + userWithPassword.getUserId() + "'", countCallback);
+                .query("select * from EmailContact WHERE UserId=:userId",new BeanPropertySqlParameterSource(userWithPassword), countCallback);
         int email = countCallback.getRowCount();
         System.out.println("UserName Count :- " + email);
         if (email > 0) {
@@ -164,7 +162,7 @@ public class UserRepoImpl implements UserRepository {
 
         RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
         namedParameterJdbcTemplate
-                .query("select * from MobileContact WHERE UserId='" + userWithPassword.getUserId() + "'", countCallback);
+                .query("select * from MobileContact WHERE UserId= :userId", new BeanPropertySqlParameterSource(userWithPassword), countCallback);
         int mobile = countCallback.getRowCount();
         System.out.println("UserName Count :- " + mobile);
         if (mobile > 0) {
@@ -206,10 +204,9 @@ public class UserRepoImpl implements UserRepository {
     @Override
     public int updateUserPassword(UserWithNewPassword userWithNewPassword) throws Exception {
 
-        String select_password = "SELECT u.UserName as UserName,u.Password as Password,r.Name as Name FROM User as u INNER JOIN Role as r on u.RoleId=r.RoleId WHERE UserId="
-                + userWithNewPassword.getUserId();
+	        String select_password = "SELECT u.UserName as UserName,u.Password as Password,r.Name as Name FROM User as u INNER JOIN Role as r on u.RoleId=r.RoleId WHERE UserId= :userId";
         System.out.println(select_password);
-        List<UserWithPassword> userWithOldPassword = namedParameterJdbcTemplate.query(select_password,
+        List<UserWithPassword> userWithOldPassword = namedParameterJdbcTemplate.query(select_password,new BeanPropertySqlParameterSource(userWithNewPassword),
                 new UserWithPasswordRowMapper());
         System.out.println(userWithOldPassword);
         if (userWithOldPassword.size() > 0 && bCryptPasswordEncoder.matches(userWithNewPassword.getOldPassword(),
