@@ -14,7 +14,7 @@ public interface UserRepository {
 
     public List<UserWithPassword> findUserByUserName(String userName) throws Exception;
 
-    public List<User> findAllUsersByRole(int role) throws Exception;
+    public List<User> findAllUsersByRole(int roleId) throws Exception;
 
     public List<User> findUserByEmailId(User user) throws Exception;
 
@@ -60,7 +60,7 @@ public interface UserRepository {
 
     public boolean updateMobile(int id, User user) throws Exception;
 
-    public int addAvailablePoints(int points) throws Exception;
+    public int addAvailablePoints(int points, int userId) throws Exception;
 
-    public int deductAvailablePoints(int points) throws Exception;
+    public int deductAvailablePoints(int points, int userId) throws Exception;
 }

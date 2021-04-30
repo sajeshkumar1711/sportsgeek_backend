@@ -40,12 +40,12 @@ public class UserRepoImpl implements UserRepository {
         return namedParameterJdbcTemplate.query(sql, new BeanPropertySqlParameterSource(user), new UserRowMapper());
     }
 
-    //====================================================================
-//	=========================================================
     @Override
-    public List<User> findAllUsersByRole(int role) throws Exception {
-        String sql = "SELECT * FROM User WHERE RoleId=:role";
-        return namedParameterJdbcTemplate.query(sql, new BeanPropertySqlParameterSource(sql), new UserRowMapper());
+    public List<User> findAllUsersByRole(int roleId) throws Exception {
+        String sql = "SELECT * FROM User WHERE RoleId= :roleId";
+        User user = new User();
+        user.setRoleId(roleId);
+        return namedParameterJdbcTemplate.query(sql, new BeanPropertySqlParameterSource(user), new UserRowMapper());
     }
 
     @Override
@@ -119,31 +119,15 @@ public class UserRepoImpl implements UserRepository {
 
     @Override
     public int addUser(UserWithPassword userWithPassword) throws Exception {
-        RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
-        namedParameterJdbcTemplate.query("select * from User WHERE UserName= :username", new BeanPropertySqlParameterSource(userWithPassword),
-                countCallback);
-        int username = countCallback.getRowCount();
-        System.out.println("UserName Count :- " + username);
-        if (username > 0) {
-            return 0;
-        } else {
+
             String insert_sql = "INSERT INTO User (FirstName,LastName,GenderId,Username,Password,ProfilePicture,RoleId,AvailablePoints,Status)"
                     + "values(:firstName,:lastName,:genderId,:Username,:password,:profilePicture,:roleId,:availablePoints,:status)";
             return namedParameterJdbcTemplate.update(insert_sql, new BeanPropertySqlParameterSource(userWithPassword));
-        }
     }
 
     @Override
     public int addEmail(UserWithPassword userWithPassword) throws Exception {
 
-        RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
-        namedParameterJdbcTemplate
-                .query("select * from EmailContact WHERE UserId=:userId",new BeanPropertySqlParameterSource(userWithPassword), countCallback);
-        int email = countCallback.getRowCount();
-        System.out.println("UserName Count :- " + email);
-        if (email > 0) {
-            return 0;
-        } else {
             String sql = "SELECT * from User WHERE UserName = '" + userWithPassword.getUsername() + "'";
             System.out.println(sql);
             List<User> userList = namedParameterJdbcTemplate.query(sql, new UserRowMapper());
@@ -154,20 +138,11 @@ public class UserRepoImpl implements UserRepository {
             String email_sql = "INSERT INTO EmailContact (UserId,EmailId) values(" + userid + ", :email)";
             namedParameterJdbcTemplate.update(email_sql, new BeanPropertySqlParameterSource(userWithPassword));
             return 1;
-        }
     }
 
     @Override
     public int addMobile(UserWithPassword userWithPassword) throws Exception {
 
-        RowCountCallbackHandler countCallback = new RowCountCallbackHandler();
-        namedParameterJdbcTemplate
-                .query("select * from MobileContact WHERE UserId= :userId", new BeanPropertySqlParameterSource(userWithPassword), countCallback);
-        int mobile = countCallback.getRowCount();
-        System.out.println("UserName Count :- " + mobile);
-        if (mobile > 0) {
-            return 0;
-        } else {
             String sql = "SELECT * from User WHERE UserName = '" + userWithPassword.getUsername() + "'";
             System.out.println(sql);
             List<User> userList = namedParameterJdbcTemplate.query(sql, new UserRowMapper());
@@ -178,7 +153,6 @@ public class UserRepoImpl implements UserRepository {
             String mobile_sql = "INSERT INTO MobileContact (UserId,MobileNumber) values(" + userid + ", '"
                     + userWithPassword.getMobileNumber() + "')";
             return namedParameterJdbcTemplate.update(mobile_sql, new BeanPropertySqlParameterSource(userWithPassword));
-        }
     }
 
 //	--------------------------------------------------------------------------------------------------------------------------------------------
@@ -204,19 +178,9 @@ public class UserRepoImpl implements UserRepository {
     @Override
     public int updateUserPassword(UserWithNewPassword userWithNewPassword) throws Exception {
 
-	        String select_password = "SELECT u.UserName as UserName,u.Password as Password,r.Name as Name FROM User as u INNER JOIN Role as r on u.RoleId=r.RoleId WHERE UserId= :userId";
-        System.out.println(select_password);
-        List<UserWithPassword> userWithOldPassword = namedParameterJdbcTemplate.query(select_password,new BeanPropertySqlParameterSource(userWithNewPassword),
-                new UserWithPasswordRowMapper());
-        System.out.println(userWithOldPassword);
-        if (userWithOldPassword.size() > 0 && bCryptPasswordEncoder.matches(userWithNewPassword.getOldPassword(),
-                userWithOldPassword.get(0).getPassword())) {
-            userWithNewPassword.setNewPassword(bCryptPasswordEncoder.encode(userWithNewPassword.getNewPassword()));
-            String sql = "UPDATE User SET Password =:newPassword WHERE UserId =:userId";
+	     String sql = "UPDATE User SET Password =:newPassword WHERE UserId =:userId";
             System.out.println(sql);
             return namedParameterJdbcTemplate.update(sql, new BeanPropertySqlParameterSource(userWithNewPassword));
-        }
-        return -1;
     }
 
     @Override
@@ -269,14 +233,20 @@ public class UserRepoImpl implements UserRepository {
     }
 
     @Override
-    public int addAvailablePoints(int points) throws Exception {
+    public int addAvailablePoints(int points, int userId) throws Exception {
         String insert_points = "UPDATE User set AvailablePoints = AvailablePoints + :points WHERE UserId=:userId";
-        return namedParameterJdbcTemplate.update(insert_points, new BeanPropertySqlParameterSource(points));
+        User user = new User();
+        user.setAvailablePoints(points);
+        user.setUserId(userId);
+        return namedParameterJdbcTemplate.update(insert_points, new BeanPropertySqlParameterSource(user));
     }
 
     @Override
-    public int deductAvailablePoints(int points) throws Exception {
+    public int deductAvailablePoints(int points,  int userId) throws Exception {
         String deduct_points = "UPDATE User SET AvailablePoints = AvailablePoints - :points WHERE UserId = :userId";
+        User user = new User();
+        user.setAvailablePoints(points);
+        user.setUserId(userId);
         return namedParameterJdbcTemplate.update(deduct_points, new BeanPropertySqlParameterSource(points));
     }
 
