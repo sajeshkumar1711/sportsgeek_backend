@@ -98,6 +98,16 @@ public class UserController {
         Result<List<User>> userResult = userService.findUsersByStatus(status);
         return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
     }
+    
+    @GetMapping("/role-id/{roleId}")
+    @PreAuthorize("hasAnyRole('Admin')")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "Internal server error"),
+            @ApiResponse(code = 404, message = "Bad Request")})
+    public ResponseEntity<Result<List<User>>> getUserByRoleId(@PathVariable int roleId) throws Exception {
+        Result<List<User>> userResult = userService.findUsersByRole(roleId);
+        return new ResponseEntity<>(userResult, HttpStatus.valueOf(userResult.getCode()));
+    }
 
 //	---------------------------------------------------------------------------------------------------------------------------------------------
 //	------------------------------------------------- INSERT CONTROLLER --------------------------------------------------------------------------
