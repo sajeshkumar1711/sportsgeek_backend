@@ -168,6 +168,18 @@ public class UserService implements UserDetailsService {
 
     public Result<User> updateStatus(int id, boolean status) throws Exception {
         if (userRepository.updateStatus(id, status)) {
+		List<User> userList = userRepository.findUserByUserId(id);
+			String sub = "Account Approved!!";
+			String updateStatus_msg = "Congratulations "+userList.get(0).getFirstName()+" "+userList.get(0).getLastName()+",\n\n" +
+					"Your account is approved by the Admin. \n" +
+					"Your username is \"" + userList.get(0).getUsername() + "\".\n" +
+					"Now, You can login to the app and enjoy SportsGeek.\n" +
+					"\n" +
+					"Thanking you\n" +
+					"SportsGeek Team";
+			String user_email = userList.get(0).getEmail();
+			Email email = Email.builder().setSubject(sub).setTo(user_email).message(updateStatus_msg).build();
+			emailService.sendEmail(email);
             return new Result<>(201, "status of given id(" + id + ") has been succefully updated");
         }
         return new Result<>(400, "No User's Found, Please try again!");
